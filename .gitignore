@@ -35,3 +35,9 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
+
+idea/*
+node_modules/*
+notesForChris*
+**/node_modules/
+node_modules/
