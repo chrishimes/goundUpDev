@@ -15,3 +15,12 @@ var db = mongojs(databaseUrl, collections) //new version
 var ObjectId = mongojs.ObjectId;
 var fs=require('fs') ;
 var crypto = require('crypto');
+
+//this is the incoming router request which send everything to the client folder 
+// needed to install npm install body-parser --save for this work
+var router = express();
+var server = http.createServer(router);
+router.use(express.bodyParser());
+router.use(express.static(path.resolve(__dirname, 'client')));
+// do know yet router.use( express.cookieParser() );
+// do know yet router.use(express.session({secret: '1234567890QWERTY'}));
