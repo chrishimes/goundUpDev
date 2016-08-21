@@ -1,0 +1,25 @@
+{
+  "name": "chat-example",
+  "version": "0.0.0",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chrishimes/my_really_cool_project.git"
+  },
+  "author": "Mostafa Eweda <mostafa@c9.io>",
+  "dependencies": {
+    "async": "~0.2.8",
+    "express": "~3.2.4",
+    "socket.io": "~0.9.14"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "description": "This is my first README file to test with in the Git Hub platform",
+  "devDependencies": {},
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chrishimes/my_really_cool_project/issues"
+  },
+  "homepage": "https://github.com/chrishimes/my_really_cool_project#readme"
+}
