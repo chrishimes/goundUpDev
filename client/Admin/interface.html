@@ -7,11 +7,10 @@
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 <body>
 
-
 <div id="TopMenu">
     <div id="UserName">Brandecation</div>
     <div class="TopMenuItem" onclick="Admin.LoadPage('Clients')"><span class="fa fa-bolt"></span> Clients  </div>
-<!--    <div class="TopMenuItem" onclick="Admin.LoadPage('Modules')"> <span class="fa fa-file-o"></span> Pages  </div>-->
+    <!--    <div class="TopMenuItem" onclick="Admin.LoadPage('Modules')"> <span class="fa fa-file-o"></span> Pages  </div>-->
     <div class="TopMenuItem" onclick="Admin.LoadPage('Modules')"> <span class="fa fa-delicious"></span> Modules  </div>
     <div class="TopMenuItem" onclick="Admin.LoadPage('Tests')"> <span class="fa fa-bullseye"></span> Listings  </div>
     <div class="TopMenuItem" onclick="Admin.LoadPage('Questions')"> <span class="fa fa-question-circle"></span> Surveys  </div>
@@ -24,29 +23,20 @@
 
 </div>
 
-<div id="MainContainer">
-
-
-
-</div>
+<div id="MainContainer"></div>
 
 <div id="Payout">
     <div id="ClosePayout" onclick="$(this).parent().hide()">X</div>
     Pay the following amount:
-
     <input type="text" id="PayoutAmount">
-<BR><BR>
+    <BR><BR>
     <input type="button" value="Pay Amount" id="Pay" onclick="Admin.PayAmount();">
-
-
-
     <script language="javascript">
         $( document ).ready(function() {
            Admin.Init();
         });
-
-    </script></div>
-
+    </script>
+</div>
 </body>
 
 

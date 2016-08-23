@@ -97,12 +97,27 @@ server.listen(process.env.PORT || 80, process.env.IP || "0.0.0.0", function(){
     console.log("server listening at", addr.address + ":" + addr.port);
 })
 
-//FUNCTIONS
 function randomString(length, chars) {
     var result = '';
     for (var i = length; i > 0; --i) result += chars[Math.round(Math.random() * (chars.length - 1))];
     return result;
 }
+
+router.get('/AdminLogin/',function(req,response){
+    var url_parts = url.parse(req.url, true);
+    var query = url_parts.query;
+    var userid= query.user;
+    var pass= query.pass;
+    var shasum = crypto.createHash('md5');
+    if(pass==adminpass&&userid==adminuser){
+        response.send({loggedin:true,admin:true})
+        req.session.admin = true;
+    }else{
+        response.send({loggedin:false})
+    }
+})
+
+//Migrated Functions
 
 function getExtension(filename) {
     ////console.log(filename)
@@ -187,35 +202,7 @@ function randomString(length, chars) {
     return result;
 }
 
-function GetEmailTemplate(xName,callback){
-    db.pages.find({Name:xName}).sort({name:1}).toArray(
-        function(err, items) {
-            if (items.length==0){
-                console.log("No Document Found")
-                callback(null);
-            }else{
-                console.log(items[0].Content);
-                callback(decodeURIComponent(items[0].Content));
-            }
-        }
-    );
-}
-
-//ROUTER - GET
-router.get('/AdminLogin/',function(req,response){
-    var url_parts = url.parse(req.url, true);
-    var query = url_parts.query;
-    var userid= query.user;
-    var pass= query.pass;
-    var shasum = crypto.createHash('md5');
-    if(pass==adminpass&&userid==adminuser){
-        response.send({loggedin:true,admin:true})
-        req.session.admin = true;
-    }else{
-        response.send({loggedin:false})
-    }
-})
-
+//ROUTER
 router.get('/Login/',function(req,response){
     var url_parts = url.parse(req.url, true);
     var query = url_parts.query;
@@ -367,112 +354,6 @@ router.get('/CheckSession/',function(req,response){
     }
 })
 
-router.get('/SendBill/',function(req,response){
-    var url_parts = url.parse(req.url, true);
-    var query = url_parts.query;
-    var xID=  query.ID.toString();
-    //Get User Data;
-    db.requests.find({_id:db.ObjectId(xID)}).toArray(
-        function(err, items) {
-            if (items.length==0){
-                response.send("{\"results\":false}")
-            }else{
-                response.send(items);
-            }
-        }
-    );
-    var xEmail=response[0].Email
-    GetEmailTemplate("Billing Email",function(xTemplate){
-        xTemplate=xTemplate.replace("%LINK%","http://www.party-butler.com/Billing.html?ID="+xID)
-        SendMessage(xEmail,"Order Billing",xTemplate,response);
-    })
-})
-
-router.get('/OrderChange/',function(req,response){
-    var url_parts = url.parse(req.url, true);
-    var query = url_parts.query;
-    var userdata=  query.Status.toString();
-    var xID=  query.ID.toString();
-    db.requests.update(
-        { _id : db.ObjectId(xID) },
-        { $set : {Status:userdata}},
-        { multi: false }
-    )
-    if(userdata=="Accepted"){
-        GetEmailTemplate("Vendor Accepted Email",function(xTemplate){
-            SendMessage("partybutler@yahoo.com","Order Accepted",xTemplate,response)
-        });
-    }else{
-        GetEmailTemplate("Vendor Rejected Email",function(xTemplate){
-            SendMessage("partybutler@yahoo.com","Order Rejected by Vendor",xTemplate,response)
-        })
-    }
-});
-
-router.get('/DisapproveUser/',function(req,response){
-    var url_parts = url.parse(req.url, true);
-    var query = url_parts.query;
-    var ID=  query.ID.toString();
-    db.users.update(
-        { _id : db.ObjectId(ID) },
-        { $set : {Approved:false}},
-        { multi: false }
-    )
-    response.send(true);
-});
-
-router.get('/GetOrder/',function(req,response){
-    var url_parts = url.parse(req.url, true);
-    var query = url_parts.query;
-    var xCat= query.ID;
-    db.requests.find({_id:db.ObjectId(xCat)}).toArray(
-        function(err, items) {
-            if (items.length==0){
-                response.send("{\"results\":false}")
-            }else{
-                var xID=items[0].Vendor;
-                db.users.find({_id:db.ObjectId(xID)}).toArray(
-                    function(err, items2) {
-                        if (items2.length==0){
-                            response.send("{\"results\":false}")
-                        }else{
-                            response.send({order:items,vendor:items2});
-                        }
-                    }
-                );
-            }
-        }
-    );
-})
-
-
-router.get('/DeleteObject/',function(req,response){
-    var url_parts = url.parse(req.url, true);
-    var query = url_parts.query;
-    var xType=  query.Type.toString();
-    var ID=  query.ID.toString();
-    db[xType].remove({"_id": db.ObjectId(ID)},function(err, saved) {
-        ////console.log(saved)
-        if( err || !saved ) {
-            response.send("{\"removed\":false}");
-        }
-        else {     response.send("{\"removed\":true}")}
-    });
-});
-
-router.get('/ApproveUser/',function(req,response){
-    var url_parts = url.parse(req.url, true);
-    var query = url_parts.query;
-    var ID=  query.ID.toString();
-    db.users.update(
-        { _id : db.ObjectId(ID) },
-        { $set : {Approved:true}},
-        { multi: false }
-    )
-    response.send(true);
-});
-
-//ROUTER POST
 router.post('/SavePhoto/',function(req,response){
     var xTime = new Date();
     var rFile=randomString(16,'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ');
@@ -786,6 +667,31 @@ router.post('/ClientContact/', function(req, res) {
     });
 });
 
+router.get('/DeleteObject/',function(req,response){
+    var url_parts = url.parse(req.url, true);
+    var query = url_parts.query;
+    var xType=  query.Type.toString();
+    var ID=  query.ID.toString();
+    db[xType].remove({"_id": db.ObjectId(ID)},function(err, saved) {
+        ////console.log(saved)
+        if( err || !saved ) {
+            response.send("{\"removed\":false}");
+        }
+        else {     response.send("{\"removed\":true}")}
+    });
+});
+
+router.get('/ApproveUser/',function(req,response){
+    var url_parts = url.parse(req.url, true);
+    var query = url_parts.query;
+    var ID=  query.ID.toString();
+    db.users.update(
+        { _id : db.ObjectId(ID) },
+        { $set : {Approved:true}},
+        { multi: false }
+    )
+    response.send(true);
+});
 
 router.post('/AssignOrder/',function(req,response){
     var userdata=  req.body ;
@@ -816,5 +722,94 @@ router.post('/UpdateOrder/',function(req,response){
     response.send(true);
 });
 
+router.get('/SendBill/',function(req,response){
+    var url_parts = url.parse(req.url, true);
+    var query = url_parts.query;
+    var xID=  query.ID.toString();
+    //Get User Data;
+    db.requests.find({_id:db.ObjectId(xID)}).toArray(
+        function(err, items) {
+            if (items.length==0){
+                response.send("{\"results\":false}")
+            }else{
+                response.send(items);
+            }
+        }
+    );
+    var xEmail=response[0].Email
+    GetEmailTemplate("Billing Email",function(xTemplate){
+        xTemplate=xTemplate.replace("%LINK%","http://www.party-butler.com/Billing.html?ID="+xID)
+        SendMessage(xEmail,"Order Billing",xTemplate,response);
+    })
+})
 
+router.get('/OrderChange/',function(req,response){
+    var url_parts = url.parse(req.url, true);
+    var query = url_parts.query;
+    var userdata=  query.Status.toString();
+    var xID=  query.ID.toString();
+    db.requests.update(
+        { _id : db.ObjectId(xID) },
+        { $set : {Status:userdata}},
+        { multi: false }
+    )
+    if(userdata=="Accepted"){
+        GetEmailTemplate("Vendor Accepted Email",function(xTemplate){
+            SendMessage("partybutler@yahoo.com","Order Accepted",xTemplate,response)
+        });
+    }else{
+        GetEmailTemplate("Vendor Rejected Email",function(xTemplate){
+            SendMessage("partybutler@yahoo.com","Order Rejected by Vendor",xTemplate,response)
+        })
+    }
+});
 
+router.get('/DisapproveUser/',function(req,response){
+    var url_parts = url.parse(req.url, true);
+    var query = url_parts.query;
+    var ID=  query.ID.toString();
+    db.users.update(
+        { _id : db.ObjectId(ID) },
+        { $set : {Approved:false}},
+        { multi: false }
+    )
+    response.send(true);
+});
+
+router.get('/GetOrder/',function(req,response){
+    var url_parts = url.parse(req.url, true);
+    var query = url_parts.query;
+    var xCat= query.ID;
+    db.requests.find({_id:db.ObjectId(xCat)}).toArray(
+        function(err, items) {
+            if (items.length==0){
+                response.send("{\"results\":false}")
+            }else{
+                var xID=items[0].Vendor;
+                db.users.find({_id:db.ObjectId(xID)}).toArray(
+                    function(err, items2) {
+                        if (items2.length==0){
+                            response.send("{\"results\":false}")
+                        }else{
+                            response.send({order:items,vendor:items2});
+                        }
+                    }
+                );
+            }
+        }
+    );
+})
+
+function GetEmailTemplate(xName,callback){
+    db.pages.find({Name:xName}).sort({name:1}).toArray(
+        function(err, items) {
+            if (items.length==0){
+                console.log("No Document Found")
+                callback(null);
+            }else{
+                console.log(items[0].Content);
+                callback(decodeURIComponent(items[0].Content));
+            }
+        }
+    );
+}
