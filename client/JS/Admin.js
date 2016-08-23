@@ -1612,6 +1612,7 @@ var Admin = (function () {
 
     function FileChange() {
         var fd = new FormData();
+        console.log("Inside photo change");
         fd.append("Input_File", $("#Input_File").get(0).files[0]);
         var xhr = new XMLHttpRequest();
         xhr.addEventListener("load", uploadComplete2, false);
