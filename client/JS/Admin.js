@@ -112,8 +112,6 @@ var Admin = (function () {
         GetData("inventory")
         GetData("messages")
         GetData("pages")
-
-
     }
 
     var Clients = [];
@@ -128,8 +126,6 @@ var Admin = (function () {
         for (dd = 0; dd < data.length; dd++) {
             ClientTemplate(data[dd])
         }
-
-
         $("#MainContainer").append("<div class='xButton' onclick=\"Admin.AddItem('Client')\"> Add Client </div>")
     }
 
@@ -145,8 +141,6 @@ var Admin = (function () {
         for (dd = 0; dd < data.length; dd++) {
             RewardTemplate(data[dd])
         }
-
-
         $("#MainContainer").append("<div class='xButton' onclick=\"Admin.AddItem('Reward')\"> Add Reward </div>")
     }
 
@@ -160,11 +154,8 @@ var Admin = (function () {
         for (dd = 0; dd < data.length; dd++) {
             UserTemplate(data[dd])
         }
-
-
         $("#MainContainer").append("<div class='xButton' onclick=\"Admin.AddItem('User')\"> Add User </div>")
     }
-
 
     var Pages = [];
 
@@ -173,7 +164,6 @@ var Admin = (function () {
         if (xshow == false) {
             return;
         }
-
         if (PreventDialogs == true) {
             return
         }
@@ -182,11 +172,8 @@ var Admin = (function () {
         for (dd = 0; dd < data.length; dd++) {
             PageTemplate(data[dd])
         }
-
-
         $("#MainContainer").append("<div class='xButton' onclick=\"Admin.AddItem('Page')\"> Add Page </div>")
     }
-
 
     var Orders;
 
@@ -205,7 +192,6 @@ var Admin = (function () {
         // $("#MainContainer").append("<div class='xButton' onclick=\"Admin.AddItem('Page')\"> Add Page </div>")
     }
 
-
     var Modules;
     var Orders;
 
@@ -214,7 +200,6 @@ var Admin = (function () {
         if (xshow == false) {
             return;
         }
-
         if (PreventDialogs == true) {
             return
         }
@@ -232,7 +217,6 @@ var Admin = (function () {
         if (xshow == false) {
             return;
         }
-
         if (PreventDialogs == true) {
             return
         }
@@ -248,7 +232,6 @@ var Admin = (function () {
         if (xshow == false) {
             return;
         }
-
         if (PreventDialogs == true) {
             return
         }
@@ -256,25 +239,19 @@ var Admin = (function () {
         for (dd = 0; dd < data.length; dd++) {
             QuestionsTemplate(data[dd])
         }
-
-
         $("#MainContainer").append("<div class='xButton' onclick=\"Admin.AddItem('Question')\"> Add Question </div>")
     }
-
 
     function ProcessCats(data, xshow) {
         if (xshow == false) {
             return;
         }
-
         if (PreventDialogs == true) {
             return
         }
-
         var dd = "";
         for (dd = 0; dd < data.length; dd++) {
             CatTemplate(data[dd])
-
         }
         $("#MainContainer").append("<div class='xButton' onclick=\"Admin.AddItem('Category')\"> Add Category </div>")
     }
@@ -283,85 +260,60 @@ var Admin = (function () {
         if (xshow == false) {
             return;
         }
-
         var dd = "";
         for (dd = 0; dd < data.length; dd++) {
             ItemTemplate(data[dd])
-
         }
         $("#MainContainer").append("<div class='xButton' onclick=\"Admin.AddItem('Item')\">Add Item </div>")
     }
 
     function ProcessInventory(data, xshow) {
-
         var dd = "";
         for (dd = 0; dd < data.length; dd++) {
             InventoryTemplate(data[dd])
-
         }
-//        $("#MainContainer").append("<div class='xButton' onclick=\"AddItem('')\"> Add Inventory </div>")
+        //    $("#MainContainer").append("<div class='xButton' onclick=\"AddItem('')\"> Add Inventory </div>")
     }
 
     function ProcessMessages(data, xshow) {
-
         var dd = "";
         for (dd = 0; dd < data.length; dd++) {
             MessageTemplate(data[dd])
-
         }
-
         $("#MainContainer").append("<div class='xButton' onclick=\"Admin.AddItem('Message')\"> Add Message </div>")
 
     }
 
-
     function IsChecked(xItem) {
         if (xInventory.results != false) {
-
             var dd = 0;
             for (dd = 0; dd < xInventory.length; dd++) {
-
                 if (xInventory[dd].Owner == CurrentUser._id) {
                     if (xInventory[dd][xItem] != undefined) {
                         return "checked"
                     }
                 }
-
             }
-
-
         }
-
         return ""
     }
 
-
     function HasValue(xItem) {
         var foundit = false;
-
         if (xInventory.results != false) {
-
             var dd = 0;
             for (dd = 0; dd < xInventory.length; dd++) {
-
                 if (xInventory[dd].Owner == CurrentUser._id) {
                     if (xInventory[dd][xItem] != undefined) {
                         return xInventory[dd][xItem]
                     }
                 }
-
             }
-
-
         }
-
         return ""
-
-
     }
 
     function InventoryTemplate2(xItem) {
-
         var xTemp = "<div class='WideBeam'>";
         xTemp = xTemp + "<div class='FieldBit ClickBit'><input class='checkboxes' type=\"checkbox\" id=\"Item_" + xItem._id + "\" " + IsChecked(xItem._id) + " value=\"" + xItem._id + "\"  > <input class=\"CostBox\" id=\"Cost_" + xItem._id + "\" value=\"" + HasValue(xItem._id) + "\" type=\"text\" placeholder='Cost Per Unit'></div>"
         xTemp = xTemp + "<div class='FieldBit'>" + xItem.Name + "</div>"
@@ -373,19 +325,15 @@ var Admin = (function () {
 
     var xInventory;
 
-
     function EditUserInventory(xID) {
         SetHash("EditUserInventory=" + xID)
         var bb = 0;
         var xObject;
-
         for (bb = 0; bb < Users.length; bb++) {
-
             if (Users[bb]._id == xID) {
                 xObject = Users[bb]
             }
         }
-
 
         CurrentUser = xObject;
 
@@ -414,7 +362,6 @@ var Admin = (function () {
         xTemp = xTemp + "</div>";
         $("#MainContainer").append(xTemp)
     }
-
 
     function UserTemplate(xItem) {
         var xTemp = "<div class='WideBeam'>";
