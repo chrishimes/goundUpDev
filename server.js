@@ -377,23 +377,25 @@ router.post('/CreateUser/', function(req, res) {
     }
     var rItem=userdata.Address+","+userdata.City+","+userdata.State+","+userdata.Zip;
     console.log(rItem);
-    geocoder.geocode(rItem, function ( err, data ) {
+    db[cat].save(userdata, function(err, saved) {
+        if( err || !saved ) {
+            console.log(err)
+            res.send("{\"saved\":false}");
+        }
+        else {
+            res.send(saved)
+            GetEmailTemplate("Vendor Created Email",function(xTemplate){
+                xTemplate=xTemplate.replace("#InitialPassword#",oPass)
+                SendMessage(userdata.Email,"Welcome!",xTemplate,res)
+            })
+        }
+    });
+
+    /*geocoder.geocode(rItem, function ( err, data ) {
         console.log(err);
         console.log(data);
-        db[cat].save(userdata, function(err, saved) {
-            if( err || !saved ) {
-                console.log(err)
-                res.send("{\"saved\":false}");
-            }
-            else {
-                res.send(saved)
-                GetEmailTemplate("Vendor Created Email",function(xTemplate){
-                    xTemplate=xTemplate.replace("#InitialPassword#",oPass)
-                    SendMessage(userdata.Email,"Welcome!",xTemplate,res)
-                })
-            }
-        });
-    });
+
+    });*/
 });
 
 router.post('/SaveCat/', function(req, res) {
@@ -511,7 +513,12 @@ router.post('/SaveUser/', function(req, res) {
     }
     var rItem=userdata.Address+","+userdata.City+","+userdata.State+","+userdata.Zip;
     console.log(rItem);
-    geocoder.geocode(rItem, function ( err, data ) {
+    db.users.update(
+        { _id : db.ObjectId(xID) },
+        { $set : userdata},
+        { multi: false }
+        )
+    /*geocoder.geocode(rItem, function ( err, data ) {
         // do stuff with data
         userdata.geo=data;
         console.log(err);
@@ -521,7 +528,7 @@ router.post('/SaveUser/', function(req, res) {
             { $set : userdata},
             { multi: false }
         )
-    });
+    });*/
     res.send(true)
 });
 
@@ -542,7 +549,12 @@ router.post('/SaveClient/', function(req, res) {
     }
     var rItem=userdata.Address+","+userdata.City+","+userdata.State+","+userdata.Zip;
     console.log(rItem);
-    geocoder.geocode(rItem, function ( err, data ) {
+    db.clients.update(
+        { _id : db.ObjectId(xID) },
+        { $set : userdata},
+        { multi: false }
+    )
+    /*geocoder.geocode(rItem, function ( err, data ) {
         // do stuff with data
         userdata.geo=data;
         console.log(err);
@@ -552,7 +564,7 @@ router.post('/SaveClient/', function(req, res) {
             { $set : userdata},
             { multi: false }
         )
-    });
+    });*/
     res.send(true)
 });
 
