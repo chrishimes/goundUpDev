@@ -18,6 +18,9 @@ var Admin = (function () {
             if (xHash == "#EditUsers") {
                 GetData("users")
             }
+            if (xHash == "#EditClients") {
+                GetData("clients")
+            }
             if (xHash == "#EditCategories") {
                 GetData("categories")
             }
@@ -57,6 +60,7 @@ var Admin = (function () {
     }
 
     function Login() {
+        console.log("Entry is done2");
         var xuser = document.getElementById("Input_User").value;
         var pass = document.getElementById("Input_Password").value;
         $.getJSON("/Login/?user=" + xuser + "&pass=" + pass, function (data) {
@@ -106,6 +110,7 @@ var Admin = (function () {
 
     var PreventDialogs = false;
 
+    /* This is not being used. See line above that is commented out
     function GetInitialData() {
         GetData("requests")
         GetData("users")
@@ -114,7 +119,7 @@ var Admin = (function () {
         GetData("inventory")
         GetData("messages")
         GetData("pages")
-    }
+    }*/
 
     var Clients = [];
     var Users = [];
@@ -128,7 +133,7 @@ var Admin = (function () {
         for (dd = 0; dd < data.length; dd++) {
             ClientTemplate(data[dd])
         }
-        $("#MainContainer").append("<div class='xButton' onclick=\"Admin.AddItem('Client')\"> Add Client </div>")
+        $("#MainContainer").append("<div class='xButton' onclick=\"Admin.AddItem('Client')\"> Addw Client </div>")
     }
 
     var Rewards = [];
@@ -438,7 +443,7 @@ var Admin = (function () {
         var xTemp = "<div class='WideBeam'>";
         xTemp = xTemp + "<div  style='display:inline-block;'  class='ClickBit' onclick=\"Admin.EditQuestion('" + xItem._id + "')\"><span class='fa fa-pencil-square'></span></div>"
         xTemp = xTemp + "<div class='FieldBit'>" + xItem.Title + "</div>"
-        xTemp = xTemp + "<div class='FieldBit ClickBit' onclick=\"Admin.Delete('questions','" + xItem._id + "')\"><span class='fa fa-trash'></span></div>"
+        xTemp = xTemp + "<div class='FieldBit ClickBit' onclick=\"Admin.Delete('questions','" + xItem._id + "')\"><span class='fa fa-trash'></span>22</div>"
         xTemp = xTemp + "</div>"
         $("#MainContainer").append(xTemp)
     }
@@ -535,7 +540,7 @@ var Admin = (function () {
         $.getJSON("/GetData/?Cat=" + rCat + "&O=" + Owner, function (data) {
             if (xCat == "rewards") {
                 ProcessRewards(data, xShow)
-                SetHash("EditPages")
+                SetHash("EditRewards")
             }
             if (xCat == "pages") {
                 ProcessPages(data, xShow)
@@ -551,7 +556,7 @@ var Admin = (function () {
             }
             if (xCat == "questions") {
                 ProcessQuestions(data, xShow);
-                SetHash("EditModules")
+                SetHash("EditQuestions")
             }
             if (xCat == "tests") {
                 ProcessTests(data, xShow)
@@ -666,10 +671,11 @@ var Admin = (function () {
         }
         if (xPage == "Questions") {
             GetQuestions();
-            CurrentCat = "Tests";
+            CurrentCat = "Questions";
         }
         if (xPage == "Clients") {
             GetClients();
+
         }
         if (xPage == "Orders") {
             GetOrders();
@@ -722,6 +728,7 @@ var Admin = (function () {
         CKEDITOR.replace('PageContent');
         GetCategories(xObject.Category)
     }
+
     var CurrentPage;
     function EditUser(xID) {
         SetHash("EditUser=" + xID)
@@ -754,7 +761,7 @@ var Admin = (function () {
             "<div class='AddRow'><div class='AddLabel'></div><div class='AddInput'><input type='button' value=\"Save\"  onclick=\"Admin.SaveUser();\"></div></div>" +
             "</div>";
         $("#MainContainer").html(xOut);
-        var xlat = xObject.geo.results[0].geometry.location.lat;
+        /*var xlat = xObject.geo.results[0].geometry.location.lat;
         var xlong = xObject.geo.results[0].geometry.location.lng;
         var map;
         map = new google.maps.Map(document.getElementById('map-canvas'), {
@@ -766,9 +773,8 @@ var Admin = (function () {
         var marker = new google.maps.Marker({
             position: myLatlng,
             map: map
-        });
+        });*/
     }
-
 
     function EditReward(xID) {
         SetHash("EditReward=" + xID)
@@ -779,7 +785,6 @@ var Admin = (function () {
                 xObject = Rewards[bb]
             }
         }
-
 
         CurrentItem = xObject;
         var xOut = "<div class='AddItem'>" +
@@ -812,12 +817,12 @@ var Admin = (function () {
     }
 
     function EditClient(xID) {
-        SetHash("EditUser=" + xID)
+        SetHash("EditClient=" + xID)
         var bb = 0;
         var xObject;
-        for (bb = 0; bb < Users.length; bb++) {
-            if (Users[bb]._id == xID) {
-                xObject = Users[bb]
+        for (bb = 0; bb < Clients.length; bb++) {
+            if (Clients[bb]._id == xID) {
+                xObject = Clients[bb]
             }
         }
         CurrentUser = xObject;
@@ -837,7 +842,7 @@ var Admin = (function () {
             "<div class='AddRow'><div class='AddLabel'></div><div class='AddInput'><input type='button' value=\"Save\"  onclick=\"Admin.SaveClient();\"></div></div>" +
             "</div>";
         $("#MainContainer").html(xOut);
-        var xlat = xObject.geo.results[0].geometry.location.lat;
+        /*var xlat = xObject.geo.results[0].geometry.location.lat;
         var xlong = xObject.geo.results[0].geometry.location.lng;
         var map;
         map = new google.maps.Map(document.getElementById('map-canvas'), {
@@ -848,7 +853,7 @@ var Admin = (function () {
         var marker = new google.maps.Marker({
             position: myLatlng,
             map: map
-        });
+        });*/
     }
 
 
@@ -885,6 +890,7 @@ var Admin = (function () {
     }
 
     var CurrentOrder;
+
     function EditOrder2(xID) {
         SetHash("EditOrder2=" + xID)
         var bb = 0;
@@ -928,7 +934,7 @@ var Admin = (function () {
         RenderCart();
         VendorEstimate();
         return;
-        var xlat = xObject.geo.results[0].geometry.location.lat;
+       /* var xlat = xObject.geo.results[0].geometry.location.lat;
         var xlong = xObject.geo.results[0].geometry.location.lng;
         var map;
         map = new google.maps.Map(document.getElementById('map-canvas'), {
@@ -941,7 +947,7 @@ var Admin = (function () {
         var marker = new google.maps.Marker({
             position: myLatlng,
             map: map
-        });
+        });*/
     }
 
     function RenderCart() {
@@ -1256,7 +1262,7 @@ var Admin = (function () {
         CurrentItem = xObject;
         LastPhoto = xObject.Photo;
         var xOut = "<div class='AddItem'>" +
-            "<div class='AddRow'><div class='AddLabel'>Title:</div><div class='AddInput'><input type='text' id='Title'></div></div>" +
+            "<div class='AddRow'><div class='AddLabel'>Title33:</div><div class='AddInput'><input type='text' id='Title'></div></div>" +
             "<div class='AddRow'><div class='AddLabel'>Owner:</div><div class='AddInput'><select name='Owner' id='Owner'></select></div></div>" +
             "<div class='AddRow'><div class='AddLabel'>Description:</div><div class='AddInput'><textarea id='Description'></textarea></div></div>" +
             "<div class='AddRow'><div class='AddLabel'>Question Media Type:</div><div class='AddInput'><select name='QuestionMediaType' id='QuestionMediaType'><option value='Text'>Text</option><option value='Video'>Video</option><option value='Photo'>Photo</option></select></div></div>" +
@@ -1343,9 +1349,9 @@ var Admin = (function () {
         $("#MainContainer").empty();
         if (xType == "User") {
             var RandPass = randomString(8, '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ');
-            SetHash("AddUser")
+            SetHash("c")
             var xOut = "<div class='AddItem'>" +
-                "<div class='AddRow'><div class='AddLabel'>First Name</div><div class='AddInput'><input type='text' id='FirstName'></div></div>" +
+                "<div class='AddRow'><div class='AddLabel'>First Name11</div><div class='AddInput'><input type='text' id='FirstName'></div></div>" +
                 "<div class='AddRow'><div class='AddLabel'>Last Name</div><div class='AddInput'><input type='text' id='LastName'></div></div>" +
                 "<div class='AddRow'><div class='AddLabel'>Company</div><div class='AddInput'><input type='text' id='Company'></div></div>" +
                 "<div class='AddRow'><div class='AddLabel'>Address</div><div class='AddInput'><input type='text' id='Address'></div></div>" +
@@ -1419,7 +1425,7 @@ var Admin = (function () {
         if (xType == "Question") {
             SetHash("AddQuestion")
             var xOut = "<div class='AddItem'>" +
-                "<div class='AddRow'><div class='AddLabel'>Title:</div><div class='AddInput'><input type='text' id='Title'></div></div>" +
+                "<div class='AddRow'><div class='AddLabel'>Title44:</div><div class='AddInput'><input type='text' id='Title'></div></div>" +
                 "<div class='AddRow'><div class='AddLabel'>Owner:</div><div class='AddInput'><select name='Owner' id='Owner'></select></div></div>" +
                 "<div class='AddRow'><div class='AddLabel'>Description:</div><div class='AddInput'><textarea id='Description'></textarea></div></div>" +
                 "<div class='AddRow'><div class='AddLabel'>Question Media Type:</div><div class='AddInput'><select name='QuestionMediaType' id='QuestionMediaType'><option value='Text'>Text</option><option value='Video'>Video</option><option value='Photo'>Photo</option></select></div></div>" +

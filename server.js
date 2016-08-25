@@ -17,7 +17,6 @@ console.log("server js processed");
 
 //mongo connection setup
 var databaseUrl =  "mongodb://localhost:27017/MLSecation";
-var collections = ["tests","modules","users","clients","questions","messages","rewards","MLSData"];
 var collections = ["tests","modules","users","clients","questions","messages","rewards"];
 var mongojs=require("mongojs");
 // old version var db = mongojs.connection(databaseUrl, collections);
