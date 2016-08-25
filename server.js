@@ -1,5 +1,5 @@
 //'use strict';
-
+console.log("server.js loaded")
 //default login
 var adminuser="admin";
 //var adminpass="acc9281";
@@ -12,25 +12,13 @@ var path = require('path');
 var url = require("url");
 var express = require('express');
 
-
-
-/*
-//*Newest requirements to correct the old parsing error
-var express = require('express');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var methodOverride = require('method-override');
-var session = require('express-session');
-var bodyParser = require('body-parser');
-var multer = require('multer');
-var errorHandler = require('errorhandler');*/
-
-
+console.log("server js processed");
 
 
 //mongo connection setup
 var databaseUrl =  "mongodb://localhost:27017/MLSecation";
 var collections = ["tests","modules","users","clients","questions","messages","rewards","MLSData"];
+var collections = ["tests","modules","users","clients","questions","messages","rewards"];
 var mongojs=require("mongojs");
 // old version var db = mongojs.connection(databaseUrl, collections);
 var db = mongojs(databaseUrl, collections); //new version
@@ -38,56 +26,12 @@ var ObjectId = mongojs.ObjectId;
 var fs=require('fs') ;
 var crypto = require('crypto');
 
-/*//this is the incoming router request which send everything to the client folder
-// needed to install npm install body-parser --save for this work
-var router = express();
-var server = http.createServer(router);
-router.use(express.bodyParser());
-router.use(express.static(path.resolve(__dirname, 'client')));
-// do know yet router.use( express.cookieParser() );
-// do know yet router.use(express.session({secret: '1234567890QWERTY'}));
-*/
-
-
-/*var app = express();
-//var server = http.createServer(router);
-app.set('port', process.env.PORT || 80, process.env.IP || "0.0.0.0", function(){
-    var addr = server.address();
-    console.log("server listening at", addr.address + ":" + addr.port)
-});
-
-app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
-// not sure what this is for app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(logger('dev'));
-app.use(methodOverride());
-app.use(session({ resave: true, saveUninitialized: true,
-    secret: 'uwotm8' }));
-
-// parse application/json
-app.use(bodyParser.json());
-
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
-
-// parse multipart/form-data
-app.use(multer());
-
-app.use(express.static(path.join(__dirname, 'client')));
-
-app.listen(app.get('port'), function(){
-    console.log('Express server on port ' + app.get('port'));
-});
-
-/*server.listen(process.env.PORT || 80, process.env.IP || "0.0.0.0", function(){
-    var addr = server.address();
-    console.log("server listening at", addr.address + ":" + addr.port);  */
 
 var router = express();
 var server = http.createServer(router);
 router.use(express.bodyParser());
-router.use(express.static(path.resolve(__dirname, 'client')));
-router.use( express.cookieParser() );
+router.use(express.static(path.resolve("./client")));
+router.use(express.cookieParser() );
 router.use(express.session({secret: '1234567890QWERTY'}));
 
 var nodemailer = require("nodemailer");
@@ -103,19 +47,7 @@ function randomString(length, chars) {
     return result;
 }
 
-router.get('/AdminLogin/',function(req,response){
-    var url_parts = url.parse(req.url, true);
-    var query = url_parts.query;
-    var userid= query.user;
-    var pass= query.pass;
-    var shasum = crypto.createHash('md5');
-    if(pass==adminpass&&userid==adminuser){
-        response.send({loggedin:true,admin:true})
-        req.session.admin = true;
-    }else{
-        response.send({loggedin:false})
-    }
-})
+
 
 //Migrated Functions
 
@@ -203,6 +135,20 @@ function randomString(length, chars) {
 }
 
 //ROUTER
+router.get('/AdminLogin/',function(req,response){
+    var url_parts = url.parse(req.url, true);
+    var query = url_parts.query;
+    var userid= query.user;
+    var pass= query.pass;
+    var shasum = crypto.createHash('md5');
+    if(pass==adminpass&&userid==adminuser){
+        response.send({loggedin:true,admin:true})
+        req.session.admin = true;
+    }else{
+        response.send({loggedin:false})
+    }
+})
+
 router.get('/Login/',function(req,response){
     var url_parts = url.parse(req.url, true);
     var query = url_parts.query;
@@ -354,6 +300,7 @@ router.get('/CheckSession/',function(req,response){
     }
 })
 
+//ROUTER POST
 router.post('/SavePhoto/',function(req,response){
     var xTime = new Date();
     var rFile=randomString(16,'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ');
@@ -381,6 +328,7 @@ router.post('/SavePhoto/',function(req,response){
 });
 
 router.post('/SaveObject/', function(req, res) {
+    console.log("inside SaveObject!")
     var userdata=  req.body ;
     userdata.Date=new Date().getTime();
     var url_parts = url.parse(req.url, true);
@@ -394,16 +342,16 @@ router.post('/SaveObject/', function(req, res) {
     if(userdata.FirstName){
         var rItem=userdata.Address+","+userdata.City+","+userdata.State+","+userdata.Zip;
         console.log(rItem);
-        geocoder.geocode(rItem, function ( err, data ) {
+        /*geocoder.geocode(rItem, function ( err, data ) {
             console.log(err);
-            console.log(data);
+            console.log(data);*/
             db[cat].save(userdata, function(err, saved) {
                 if( err || !saved ) {
                     console.log(err)
                     res.send("{\"saved\":false}");
                 }
                 else {     res.send(saved)}
-            });
+            /*});*/
         });
     }else{
         db[cat].save(userdata, function(err, saved) {

@@ -1,3 +1,4 @@
+console.log("Admin.js loaded")
 var Admin = (function () {
     function SetHash(xItem) {
         document.location.hash = "#" + xItem;
@@ -60,7 +61,7 @@ var Admin = (function () {
         var pass = document.getElementById("Input_Password").value;
         $.getJSON("/Login/?user=" + xuser + "&pass=" + pass, function (data) {
             if (data.loggedin == true) {
-                document.location = "interface.html";
+                document.location = "/Admin/interface.html";
             } else {
                 alert("Invalid Login");
             }
@@ -74,13 +75,14 @@ var Admin = (function () {
         $.getJSON("/AdminLogin/?user=" + xuser + "&pass=" + pass, function (data) {
             if (data.loggedin == true) {
                 console.log("Entry granted");
-                document.location = "../Admin/interface.html";
+                document.location = "/Admin/interface.html";
             } else {
                 alert("Invalid Login");
                 console.log("bad password");
             }
         })
     }
+
 
     function CheckSession() {
         $.getJSON("/CheckSession/", function (data) {
@@ -1113,7 +1115,6 @@ var Admin = (function () {
         { "name": "Wyoming", "abbreviation": "WY" }
     ];
 
-
     function SelectStates(xID, xValue) {
         var bb = 0;
         var xout = "<select id=\"" + xID + "\">";
@@ -1529,7 +1530,7 @@ var Admin = (function () {
             var RandPass = randomString(8, '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ');
             SetHash("AddClient")
             var xOut = "<div class='AddItem'>" +
-                "<div class='AddRow'><div class='AddLabel'>Company</div><div class='AddInput'><input type='text' id='Company'></div></div>" +
+                "<div class='AddRow'><div class='AddLabel'>Company1</div><div class='AddInput'><input type='text' id='Company'></div></div>" +
                 "<div class='AddRow'><div class='AddLabel'>First Name</div><div class='AddInput'><input type='text' id='FirstName'></div></div>" +
                 "<div class='AddRow'><div class='AddLabel'>Last Name</div><div class='AddInput'><input type='text' id='LastName'></div></div>" +
                 "<div class='AddRow'><div class='AddLabel'>Address</div><div class='AddInput'><input type='text' id='Address'></div></div>" +
@@ -1698,6 +1699,7 @@ var Admin = (function () {
                 return;
             }
             xCat = "clients"
+            console.log("CurrentCat of Client")
         }
         if (CurrentCat == "User") {
             xObject.Active = false;
@@ -1837,6 +1839,7 @@ var Admin = (function () {
                     LoadPage("Pages")
                 }
             }})
+        console.log("CurrentCat of Client")
     }
 
     function SavexItem() {
