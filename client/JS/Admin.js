@@ -361,7 +361,7 @@ var Admin = (function () {
         var xTemp = "<div class='WideBeam'>";
         xTemp = xTemp + "<div style='float:left;margin-right:10px;' class='ClickBit' onclick=\"Admin.EditClient('" + xItem._id + "')\"><span class='fa fa-pencil-square'></span></div>"
         xTemp = xTemp + "<div style='float:left;margin-right:10px;' class='ClickBit' onclick=\"Admin.EditModules('" + xItem._id + "')\"><span class='fa fa-list'></span></div>"
-        xTemp = xTemp + "<div class='FieldBit200'>" + xItem.FirstName + ", " + xItem.LastName + "</div>"
+        xTemp = xTemp + "<div class='FieldBit200'>" + xItem.FirstName + "," + xItem.LastName + "</div>"
         xTemp = xTemp + "<div class='FieldBit200'>" + xItem.Company + "</div>"
         xTemp = xTemp + "<div style='display:inline-block;margin-right:10px;' class='FieldBit100'>" + xItem.City + "</div>"
         xTemp = xTemp + "<div style='display:inline-block;margin-right:10px;' >" + xItem.State + "</div>"
@@ -1125,11 +1125,17 @@ var Admin = (function () {
     function SelectStates(xID, xValue) {
         var bb = 0;
         var xout = "<select id=\"" + xID + "\">";
+        console.log(xValue);
+        var StateShort = xValue;
         for (bb = 0; bb < usStates.length; bb++) {
-            xout = xout + "<option value=\"" + usStates[bb].abbreviation + "\">" + usStates[bb].name + "</option>"
+            var stateSelected = "";
+            var bdStateShort = usStates[bb].abbreviation;
+            if(bdStateShort === StateShort){stateSelected = " Selected "} else {stateSelected = ""};
+            xout = xout + "<option value=\"" + bdStateShort + "\"" + stateSelected + ">" + usStates[bb].name + "</option>"
         }
         return xout + "</select>";
     }
+
 
     function EditItem(xID) {
         $("#MainContainer").empty();

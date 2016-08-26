@@ -377,23 +377,23 @@ router.post('/CreateUser/', function(req, res) {
     }
     var rItem=userdata.Address+","+userdata.City+","+userdata.State+","+userdata.Zip;
     console.log(rItem);
-    geocoder.geocode(rItem, function ( err, data ) {
+    db[cat].save(userdata, function(err, saved) {
+        if( err || !saved ) {
+            console.log(err)
+            res.send("{\"saved\":false}");
+        }
+        else {
+            res.send(saved)
+            GetEmailTemplate("Vendor Created Email",function(xTemplate){
+                xTemplate=xTemplate.replace("#InitialPassword#",oPass)
+                SendMessage(userdata.Email,"Welcome!",xTemplate,res)
+            })
+        }
+    });
+    /*geocoder.geocode(rItem, function ( err, data ) {
         console.log(err);
         console.log(data);
-        db[cat].save(userdata, function(err, saved) {
-            if( err || !saved ) {
-                console.log(err)
-                res.send("{\"saved\":false}");
-            }
-            else {
-                res.send(saved)
-                GetEmailTemplate("Vendor Created Email",function(xTemplate){
-                    xTemplate=xTemplate.replace("#InitialPassword#",oPass)
-                    SendMessage(userdata.Email,"Welcome!",xTemplate,res)
-                })
-            }
-        });
-    });
+    });*/
 });
 
 router.post('/SaveCat/', function(req, res) {
