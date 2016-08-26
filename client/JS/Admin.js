@@ -750,8 +750,7 @@ var Admin = (function () {
             "<div class='AddRow'><div class='AddLabel'>Company</div><div class='AddInput'><input type='text' value='" + xObject.Company + "'  id='Company'></div></div>" +
             "<div class='AddRow'><div class='AddLabel'>Address</div><div class='AddInput'><input type='text' value='" + xObject.Address + "'  id='Address'></div></div>" +
             "<div class='AddRow'><div class='AddLabel'>City</div><div class='AddInput'><input type='text' value='" + xObject.City + "'  id='City'></div></div>" +
-            "<div class='AddRow'><div class='AddLabel'>State1</div><div class='AddInput'>" + SelectStates('State', xObject.State) + "</div></div>" +
-            "<div class='AddRow'><div class='AddLabel'>Play State</div><div class='AddInput'><input type='text' value='" + xObject.City + "'  id='City'></div></div>" +
+            "<div class='AddRow'><div class='AddLabel'>State</div><div class='AddInput'>" + SelectStates('State', xObject.State) + "</div></div>" +
             "<div class='AddRow'><div class='AddLabel'>Zip</div><div class='AddInput'><input type='text' value='" + xObject.Zip + "'  id='Zip'></div></div>" +
             "<div class='AddRow'><div class='AddLabel'>Email</div><div class='AddInput'><input type='text' value='" + xObject.Email + "'  id='Email'></div></div>" +
             "<div class='AddRow'><div class='AddLabel'>Phone</div><div class='AddInput'><input type='text' value='" + xObject.Phone + "' id='Phone'></div></div>" +
@@ -831,7 +830,7 @@ var Admin = (function () {
             "<div class='AddRow'><div class='AddLabel'>Active</div><div class='AddInput'>" + xObject.Active + "</div></div>" +
             "<div class='AddRow'><div class='AddLabel'>First Name</div><div class='AddInput'><input type='text' value='" + xObject.FirstName + "' id='FirstName'></div></div>" +
             "<div class='AddRow'><div class='AddLabel'>Last Name</div><div class='AddInput'><input type='text' value='" + xObject.LastName + "'  id='LastName'></div></div>" +
-            "<div class='AddRow'><div class='AddLabel'>Company2</div><div class='AddInput'><input type='text' value='" + xObject.Company + "'  id='Company'></div></div>" +
+            "<div class='AddRow'><div class='AddLabel'>Company</div><div class='AddInput'><input type='text' value='" + xObject.Company + "'  id='Company'></div></div>" +
             "<div class='AddRow'><div class='AddLabel'>Address</div><div class='AddInput'><input type='text' value='" + xObject.Address + "'  id='Address'></div></div>" +
             "<div class='AddRow'><div class='AddLabel'>City</div><div class='AddInput'><input type='text' value='" + xObject.City + "'  id='City'></div></div>" +
             "<div class='AddRow'><div class='AddLabel'>State</div><div class='AddInput'>" + SelectStates('State', xObject.State) + "</div></div>" +
@@ -1126,9 +1125,7 @@ var Admin = (function () {
         var bb = 0;
         var xout = "<select id=\"" + xID + "\">";
         for (bb = 0; bb < usStates.length; bb++) {
-            var optionChoice =""
-            if(usStates[bb].abbreviation == xValue) {optionChoice=" Selected "};
-           xout = xout + "<option value=\"" + usStates[bb].abbreviation + "\"" + optionChoice + " look >" + usStates[bb].name + "</option>";
+            xout = xout + "<option value=\"" + usStates[bb].abbreviation + "\">" + usStates[bb].name + "</option>"
         }
         return xout + "</select>";
     }
@@ -1177,7 +1174,7 @@ var Admin = (function () {
             "<div class='AddRow'><div class='AddLabel'>Desc</div><div class='AddInput'><textarea id='Description'>" + xObject.Desc + "</textarea></div></div>" +
             "<div class='AddRow'><div class='AddLabel'>Owner:</div><div class='AddInput'><select name='Owner' id='Owner'></select></div></div>" +
             "<div class='AddRow'><div class='AddLabel'>Reward:</div><div class='AddInput'><select name='Reward' id='Reward'></select></div></div>" +
-            "<div class='AddRow'><div class='AddLabel'>Sequential Unlocking1:</div><div class='AddInput'><input type='radio' id='Seq_Unlock' value='false' checked name='Seq_Unlock'>false<input type='radio' id='Seq_Unlock' value='true'  name='Seq_Unlock'>true</div></div>" +
+            "<div class='AddRow'><div class='AddLabel'>Sequential Unlocking:</div><div class='AddInput'><input type='radio' id='Seq_Unlock' value='false' checked name='Seq_Unlock'>false<input type='radio' id='Seq_Unlock' value='true'  name='Seq_Unlock'>true</div></div>" +
             "<div class='AddRow'><div class='AddLabel'>Category</div><div class='AddInput'><input type='text' id='Category' value='" + xObject.Category + "'></div></div>" +
             "<div class='AddRow'><div class='AddLabel'>Photo</div><div id='PhotoPlaceHolder' style=\"background-image:url(" + xObject.Photo + ");\"></div><BR><div ><input  type='file' id='Input_File' name='Input_File'></div></div>" +
             "<div class='AddRow'><div class='AddLabel'></div><div class='AddInput'><input type='button' value=\"Save\"  onclick=\"Admin.UpdateModule();\"></div></div>" +
@@ -1224,7 +1221,7 @@ var Admin = (function () {
             "<div class='AddRow'><div class='AddLabel'>Desc</div><div class='AddInput'><textarea id='Description'>" + xObject.Desc + "</textarea></div></div>" +
             "<div class='AddRow'><div class='AddLabel'>Owner:</div><div class='AddInput'><select name='Owner' id='Owner'></select></div></div>" +
             "<div class='AddRow'><div class='AddLabel'>Reward:</div><div class='AddInput'><select name='Reward' id='Reward'></select></div></div>" +
-            "<div class='AddRow'><div class='AddLabel'>Sequential Unlocking2:</div><div class='AddInput'><input type='radio' id='Seq_Unlock' value='false' checked name='Seq_Unlock'>false<input type='radio' id='Seq_Unlock' value='true'  name='Seq_Unlock'>true</div></div>" +
+            "<div class='AddRow'><div class='AddLabel'>Sequential Unlocking:</div><div class='AddInput'><input type='radio' id='Seq_Unlock' value='false' checked name='Seq_Unlock'>false<input type='radio' id='Seq_Unlock' value='true'  name='Seq_Unlock'>true</div></div>" +
             "<div class='AddRow'><div class='AddLabel'>Photo</div><div id='PhotoPlaceHolder' style=\"background-image:url(" + xObject.Photo + ");\"></div><BR><div ><input  type='file' id='Input_File' name='Input_File'></div></div>" +
             "<div class='AddRow'><div class='AddLabel'></div><div class='AddInput'><input type='button' value=\"Save\"  onclick=\"Admin.UpdateTest();\"></div></div>" +
             "</div>";
@@ -1380,7 +1377,7 @@ var Admin = (function () {
                 "<div class='AddRow'><div class='AddLabel'>Reward:</div><div class='AddInput'><select name='Reward' id='Reward'></select></div></div>" +
                 "<div class='AddRow'><div class='AddLabel'>Category:</div><div class='AddInput'><input type='text' id='Category'></div></div>" +
                 "<div class='AddRow'><div class='AddLabel'>Description:</div><div class='AddInput'><textarea id='Description'></textarea></div></div>" +
-                "<div class='AddRow'><div class='AddLabel'>Sequential Unlocking4:</div><div class='AddInput'><input type='radio' id='Seq_Unlock' value='false' checked name='Seq_Unlock'>false<input type='radio' id='Seq_Unlock' value='true'  name='Seq_Unlock'>true</div></div>" +
+                "<div class='AddRow'><div class='AddLabel'>Sequential Unlocking:</div><div class='AddInput'><input type='radio' id='Seq_Unlock' value='false' checked name='Seq_Unlock'>false<input type='radio' id='Seq_Unlock' value='true'  name='Seq_Unlock'>true</div></div>" +
                 "<div class='AddRow'><div class='AddLabel'>Photo</div><div id='PhotoPlaceHolder'></div><BR><div ><input  type='file' id='Input_File' name='Input_File'></div></div>" +
                 "<div class='AddRow'><div class='AddLabel'></div><div class='AddInput'><input type='button' value=\"Save\"  onclick=\"Admin.SaveObject();\"></div></div>" +
                 "</div>";
@@ -1513,7 +1510,7 @@ var Admin = (function () {
                 "<div class='AddRow'><div class='AddLabel'>Description:</div><div class='AddInput'><textarea id='Description'></textarea></div></div>" +
                 "<div class='AddRow'><div class='AddLabel'>Owner:</div><div class='AddInput'><select name='Owner' id='Owner'></select></div></div>" +
                 "<div class='AddRow'><div class='AddLabel'>Reward:</div><div class='AddInput'><select name='Reward' id='Reward'></select></div></div>" +
-                "<div class='AddRow'><div class='AddLabel'>Sequential Unlocking3:</div><div class='AddInput'><input type='radio' id='Seq_Unlock' value='false' checked name='Seq_Unlock'>false<input type='radio' id='Seq_Unlock' value='true'  name='Seq_Unlock'>true</div></div>" +
+                "<div class='AddRow'><div class='AddLabel'>Sequential Unlocking:</div><div class='AddInput'><input type='radio' id='Seq_Unlock' value='false' checked name='Seq_Unlock'>false<input type='radio' id='Seq_Unlock' value='true'  name='Seq_Unlock'>true</div></div>" +
                 "<div class='AddRow'><div class='AddLabel'>Photo</div><div id='PhotoPlaceHolder'></div><BR><div ><input  type='file' id='Input_File' name='Input_File'></div></div>" +
                 "<div class='AddRow'><div class='AddLabel'></div><div class='AddInput'><input type='button' value=\"Save\"  onclick=\"Admin.SaveObject();\"></div></div>" +
                 "</div>";
