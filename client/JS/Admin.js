@@ -361,7 +361,7 @@ var Admin = (function () {
         var xTemp = "<div class='WideBeam'>";
         xTemp = xTemp + "<div style='float:left;margin-right:10px;' class='ClickBit' onclick=\"Admin.EditClient('" + xItem._id + "')\"><span class='fa fa-pencil-square'></span></div>"
         xTemp = xTemp + "<div style='float:left;margin-right:10px;' class='ClickBit' onclick=\"Admin.EditModules('" + xItem._id + "')\"><span class='fa fa-list'></span></div>"
-        xTemp = xTemp + "<div class='FieldBit200'>" + xItem.FirstName + "," + xItem.LastName + "</div>"
+        xTemp = xTemp + "<div class='FieldBit200'>" + xItem.FirstName + ", " + xItem.LastName + "</div>"
         xTemp = xTemp + "<div class='FieldBit200'>" + xItem.Company + "</div>"
         xTemp = xTemp + "<div style='display:inline-block;margin-right:10px;' class='FieldBit100'>" + xItem.City + "</div>"
         xTemp = xTemp + "<div style='display:inline-block;margin-right:10px;' >" + xItem.State + "</div>"
@@ -828,8 +828,9 @@ var Admin = (function () {
         CurrentUser = xObject;
         var xOut = "<div class='AddItem'>" +
             "<div class='AddRow'><div class='AddLabel'>Active</div><div class='AddInput'>" + xObject.Active + "</div></div>" +
-            "<div class='AddRow'><div class='AddLabel'>First Name</div><div class='AddInput'><input type='text' value='" + xObject.FirstName + "' id='FirstName'></div></div>" +
+            "<div class='AddRow'><div class='AddLabel'>First Nameee</div><div class='AddInput'><input type='text' value='" + xObject.FirstName + "' id='FirstName'></div></div>" +
             "<div class='AddRow'><div class='AddLabel'>Last Name</div><div class='AddInput'><input type='text' value='" + xObject.LastName + "'  id='LastName'></div></div>" +
+            "<div class='AddRow'><div class='AddLabel'>Company</div><div class='AddInput'><input type='text' value='" + xObject.Company + "'  id='Company'></div></div>" +
             "<div class='AddRow'><div class='AddLabel'>Company</div><div class='AddInput'><input type='text' value='" + xObject.Company + "'  id='Company'></div></div>" +
             "<div class='AddRow'><div class='AddLabel'>Address</div><div class='AddInput'><input type='text' value='" + xObject.Address + "'  id='Address'></div></div>" +
             "<div class='AddRow'><div class='AddLabel'>City</div><div class='AddInput'><input type='text' value='" + xObject.City + "'  id='City'></div></div>" +

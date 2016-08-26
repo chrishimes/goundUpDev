@@ -1,5 +1,5 @@
 //'use strict';
-console.log("server.js loaded")
+console.log("server.js loaded");
 //default login
 var adminuser="admin";
 //var adminpass="acc9281";
@@ -38,7 +38,7 @@ var nodemailer = require("nodemailer");
 server.listen(process.env.PORT || 80, process.env.IP || "0.0.0.0", function(){
     var addr = server.address();
     console.log("server listening at", addr.address + ":" + addr.port);
-})
+});
 
 function randomString(length, chars) {
     var result = '';
@@ -79,13 +79,13 @@ function SendMessage(Recip,Title,Content,Response){
         subject: Title, // Subject line
         //  text: Content // plaintext body
         html: Content
-    }
+    };
 // send mail with defined transport object
     smtpTransport.sendMail(mailOptions, function(error, response){
         if(error){
             console.log(error);
-            console.log(response)
-            Response.send(false)
+            console.log(response);
+            Response.send(false);
         }else{
             console.log("Message sent: " + response.message);
             Response.send(true)
@@ -94,7 +94,7 @@ function SendMessage(Recip,Title,Content,Response){
 }
 
 function SendMessageOld(Recip,Title,Content,Response){
-    console.log("Sending Email...")
+    console.log("Sending Email...");
     var smtpTransport = nodemailer.createTransport("SMTP",{
         service: "yahoo", // hostname
         // secureConnection: false, // TLS requires secureConnection to be false
@@ -114,7 +114,7 @@ function SendMessageOld(Recip,Title,Content,Response){
         subject: Title, // Subject line
         //  text: Content // plaintext body
         html: Content
-    }
+    };
 // send mail with defined transport object
     smtpTransport.sendMail(mailOptions, function(error, response){
         if(error){
@@ -155,19 +155,19 @@ router.get('/Login/',function(req,response){
     var pass= query.pass;
     var shasum = crypto.createHash('md5');
     if(pass==adminpass&&userid==adminuser){
-        response.send({loggedin:true,admin:true})
+        response.send({loggedin:true,admin:true});
         req.session.admin = true;
     }else{
         shasum.update(pass);
-        var       pass = shasum.digest('hex');
+        var pass = shasum.digest('hex');
         console.log(pass);
         db.users.find({Email:userid,Password:pass}).sort({name:1}).toArray(
             function(err, items) {
                 if (items.length==0){
-                    response.send({loggedin:false})
+                    response.send({loggedin:false});
                 }else{
                     req.session.user = true;
-                    response.send({loggedin:true,id:items[0]._id})
+                    response.send({loggedin:true,id:items[0]._id});
                 }
             }
         );
@@ -542,17 +542,18 @@ router.post('/SaveClient/', function(req, res) {
     }
     var rItem=userdata.Address+","+userdata.City+","+userdata.State+","+userdata.Zip;
     console.log(rItem);
-    geocoder.geocode(rItem, function ( err, data ) {
+    db.clients.update(
+        { _id : db.ObjectId(xID) },
+        { $set : userdata},
+        { multi: false }
+    );
+    /*geocoder.geocode(rItem, function ( err, data ) {
         // do stuff with data
         userdata.geo=data;
         console.log(err);
         console.log(data);
-        db.clients.update(
-            { _id : db.ObjectId(xID) },
-            { $set : userdata},
-            { multi: false }
-        )
-    });
+
+    });*/
     res.send(true)
 });
 
