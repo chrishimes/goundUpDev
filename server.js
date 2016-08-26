@@ -511,17 +511,18 @@ router.post('/SaveUser/', function(req, res) {
     }
     var rItem=userdata.Address+","+userdata.City+","+userdata.State+","+userdata.Zip;
     console.log(rItem);
-    geocoder.geocode(rItem, function ( err, data ) {
+    db.users.update(
+        { _id : db.ObjectId(xID) },
+        { $set : userdata},
+        { multi: false }
+    )
+    /*geocoder.geocode(rItem, function ( err, data ) {
         // do stuff with data
         userdata.geo=data;
         console.log(err);
         console.log(data);
-        db.users.update(
-            { _id : db.ObjectId(xID) },
-            { $set : userdata},
-            { multi: false }
-        )
-    });
+
+    });*/
     res.send(true)
 });
 
