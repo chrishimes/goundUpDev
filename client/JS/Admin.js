@@ -1,4 +1,5 @@
-console.log("Admin.js loaded")
+console.log("Admin.js loaded");
+
 var Admin = (function () {
     function SetHash(xItem) {
         document.location.hash = "#" + xItem;
@@ -21,6 +22,9 @@ var Admin = (function () {
             if (xHash == "#EditClients") {
                 GetData("clients")
             }
+            if (xHash == "#EditQuestions") {
+                GetData("questions")
+            }
             if (xHash == "#EditCategories") {
                 GetData("categories")
             }
@@ -34,23 +38,23 @@ var Admin = (function () {
                 GetData("inventory")
             }
             if (xHash.indexOf("#EditPage=") != -1) {
-                xHash = xHash.replace("#EditPage=", "")
+                xHash = xHash.replace("#EditPage=", "");
                 EditPage(xHash);
             }
             if (xHash.indexOf("#EditOrder2=") != -1) {
-                xHash = xHash.replace("#EditOrder2=", "")
+                xHash = xHash.replace("#EditOrder2=", "");
                 EditOrder(xHash)
             }
             if (xHash.indexOf("#EditUser=") != -1) {
-                xHash = xHash.replace("#EditUser=", "")
+                xHash = xHash.replace("#EditUser=", "");
                 EditUser(xHash);
             }
             if (xHash.indexOf("#EditUserInventory=") != -1) {
-                xHash = xHash.replace("#EditUserInventory=", "")
+                xHash = xHash.replace("#EditUserInventory=", "");
                 EditUserInventory(xHash);
             }
             if (xHash.indexOf("#EditCat=") != -1) {
-                xHash = xHash.replace("#EditCat=", "")
+                xHash = xHash.replace("#EditCat=", "");
                 EditCat(xHash);
             }
             if (xHash.indexOf("#EditMessages=") != -1) {
@@ -322,10 +326,10 @@ var Admin = (function () {
 
     function InventoryTemplate2(xItem) {
         var xTemp = "<div class='WideBeam'>";
-        xTemp = xTemp + "<div class='FieldBit ClickBit'><input class='checkboxes' type=\"checkbox\" id=\"Item_" + xItem._id + "\" " + IsChecked(xItem._id) + " value=\"" + xItem._id + "\"  > <input class=\"CostBox\" id=\"Cost_" + xItem._id + "\" value=\"" + HasValue(xItem._id) + "\" type=\"text\" placeholder='Cost Per Unit'></div>"
-        xTemp = xTemp + "<div class='FieldBit'>" + xItem.Name + "</div>"
-        xTemp = xTemp + "<div class='FieldBit'>" + xItem.Category + "</div>"
-        xTemp = xTemp + "</div>"
+        xTemp = xTemp + "<div class='FieldBit ClickBit'><input class='checkboxes' type=\"checkbox\" id=\"Item_" + xItem._id + "\" " + IsChecked(xItem._id) + " value=\"" + xItem._id + "\"  > <input class=\"CostBox\" id=\"Cost_" + xItem._id + "\" value=\"" + HasValue(xItem._id) + "\" type=\"text\" placeholder='Cost Per Unit'></div>";
+        xTemp = xTemp + "<div class='FieldBit'>" + xItem.Name + "</div>";
+        xTemp = xTemp + "<div class='FieldBit'>" + xItem.Category + "</div>";
+        xTemp = xTemp + "</div>";
         $("#MainContainer").append(xTemp)
 
     }
@@ -333,7 +337,7 @@ var Admin = (function () {
     var xInventory;
 
     function EditUserInventory(xID) {
-        SetHash("EditUserInventory=" + xID)
+        SetHash("EditUserInventory=" + xID);
         var bb = 0;
         var xObject;
         for (bb = 0; bb < Users.length; bb++) {
@@ -346,7 +350,7 @@ var Admin = (function () {
 
         $.getJSON("/GetData/?Cat=inventory", function (data) {
             xInventory = data;
-            $("#MainContainer").empty()
+            $("#MainContainer").empty();
             $.getJSON("/GetData/?Cat=items", function (data) {
                 var dd = "";
                 for (dd = 0; dd < data.length; dd++) {
@@ -359,103 +363,103 @@ var Admin = (function () {
 
     function ClientTemplate(xItem) {
         var xTemp = "<div class='WideBeam'>";
-        xTemp = xTemp + "<div style='float:left;margin-right:10px;' class='ClickBit' onclick=\"Admin.EditClient('" + xItem._id + "')\"><span class='fa fa-pencil-square'></span></div>"
-        xTemp = xTemp + "<div style='float:left;margin-right:10px;' class='ClickBit' onclick=\"Admin.EditModules('" + xItem._id + "')\"><span class='fa fa-list'></span></div>"
-        xTemp = xTemp + "<div class='FieldBit200'>" + xItem.FirstName + "," + xItem.LastName + "</div>"
-        xTemp = xTemp + "<div class='FieldBit200'>" + xItem.Company + "</div>"
-        xTemp = xTemp + "<div style='display:inline-block;margin-right:10px;' class='FieldBit100'>" + xItem.City + "</div>"
-        xTemp = xTemp + "<div style='display:inline-block;margin-right:10px;' >" + xItem.State + "</div>"
-        xTemp = xTemp + "<div style='display:inline-block;margin-right:10px;'  class='ClickBit' onclick=\"Admin.Delete('clients','" + xItem._id + "')\"><span class='fa fa-trash'></span></div>"
+        xTemp = xTemp + "<div style='float:left;margin-right:10px;' class='ClickBit' onclick=\"Admin.EditClient('" + xItem._id + "')\"><span class='fa fa-pencil-square'></span></div>";
+        xTemp = xTemp + "<div style='float:left;margin-right:10px;' class='ClickBit' onclick=\"Admin.EditModules('" + xItem._id + "')\"><span class='fa fa-list'></span></div>";
+        xTemp = xTemp + "<div class='FieldBit200'>" + xItem.FirstName + "," + xItem.LastName + "</div>";
+        xTemp = xTemp + "<div class='FieldBit200'>" + xItem.Company + "</div>";
+        xTemp = xTemp + "<div style='display:inline-block;margin-right:10px;' class='FieldBit100'>" + xItem.City + "</div>";
+        xTemp = xTemp + "<div style='display:inline-block;margin-right:10px;' >" + xItem.State + "</div>";
+        xTemp = xTemp + "<div style='display:inline-block;margin-right:10px;'  class='ClickBit' onclick=\"Admin.Delete('clients','" + xItem._id + "')\"><span class='fa fa-trash'></span></div>";
         xTemp = xTemp + "</div>";
         $("#MainContainer").append(xTemp)
     }
 
     function UserTemplate(xItem) {
         var xTemp = "<div class='WideBeam'>";
-        xTemp = xTemp + "<div style='float:left;margin-right:10px;' class='ClickBit' onclick=\"Admin.EditUser('" + xItem._id + "')\"><span class='fa fa-pencil-square'></span></div>"
-        xTemp = xTemp + "<div style='float:left;margin-right:10px;' class='ClickBit' onclick=\"Admin.EditUserInventory('" + xItem._id + "')\"><span class='fa fa-list'></span></div>"
-        xTemp = xTemp + "<div class='FieldBit200'>" + xItem.FirstName + "," + xItem.LastName + "</div>"
-        xTemp = xTemp + "<div class='FieldBit200'>" + xItem.Company + "</div>"
-        xTemp = xTemp + "<div style='display:inline-block;margin-right:10px;' class='FieldBit100'>" + xItem.City + "</div>"
-        xTemp = xTemp + "<div style='display:inline-block;margin-right:10px;' >" + xItem.State + "</div>"
+        xTemp = xTemp + "<div style='float:left;margin-right:10px;' class='ClickBit' onclick=\"Admin.EditUser('" + xItem._id + "')\"><span class='fa fa-pencil-square'></span></div>";
+        xTemp = xTemp + "<div style='float:left;margin-right:10px;' class='ClickBit' onclick=\"Admin.EditUserInventory('" + xItem._id + "')\"><span class='fa fa-list'></span></div>";
+        xTemp = xTemp + "<div class='FieldBit200'>" + xItem.FirstName + "," + xItem.LastName + "</div>";
+        xTemp = xTemp + "<div class='FieldBit200'>" + xItem.Company + "</div>";
+        xTemp = xTemp + "<div style='display:inline-block;margin-right:10px;' class='FieldBit100'>" + xItem.City + "</div>";
+        xTemp = xTemp + "<div style='display:inline-block;margin-right:10px;' >" + xItem.State + "</div>";
 
         if (xItem.Approved == true) {
             xTemp = xTemp + "<div style='display:inline-block;margin-right:10px;' class='ClickBit' onclick=\"Admin.Disapprove('" + xItem._id + "')\"><span class='fa fa-thumbs-down'></span></div>"
         } else {
             xTemp = xTemp + "<div style='display:inline-block;margin-right:10px;'  class='ClickBit' onclick=\"Admin.Approve('" + xItem._id + "')\"><span class='fa fa-thumbs-up'></span></div>"
         }
-        xTemp = xTemp + "<div style='display:inline-block;margin-right:10px;'  class='ClickBit' onclick=\"Admin.Delete('users','" + xItem._id + "')\"><span class='fa fa-trash'></span></div>"
+        xTemp = xTemp + "<div style='display:inline-block;margin-right:10px;'  class='ClickBit' onclick=\"Admin.Delete('users','" + xItem._id + "')\"><span class='fa fa-trash'></span></div>";
         xTemp = xTemp + "</div>";
         $("#MainContainer").append(xTemp)
     }
 
     function InventoryTemplate(xItem) {
         var xTemp = "<div class='WideBeam'>";
-        xTemp = xTemp + "<div  style='display:inline-block;'  class='ClickBit' onclick=\"Admin.EditInventory('" + xItem._id + "')\"><span class='fa fa-pencil-square'></span></div>"
-        xTemp = xTemp + "<div class='FieldBit'>" + xItem.name + "</div>"
-        xTemp = xTemp + "<div class='FieldBit'>" + xItem.category + "</div>"
-        xTemp = xTemp + "<div class='FieldBit'>" + xItem.vendorcount + "</div>"
-        xTemp = xTemp + "<div class='FieldBit ClickBit' onclick=\"Admin.Delete('inventory','" + xItem._id + "')\"><span class='fa fa-trash'></span></div>"
-        xTemp = xTemp + "</div>"
+        xTemp = xTemp + "<div  style='display:inline-block;'  class='ClickBit' onclick=\"Admin.EditInventory('" + xItem._id + "')\"><span class='fa fa-pencil-square'></span></div>";
+        xTemp = xTemp + "<div class='FieldBit'>" + xItem.name + "</div>";
+        xTemp = xTemp + "<div class='FieldBit'>" + xItem.category + "</div>";
+        xTemp = xTemp + "<div class='FieldBit'>" + xItem.vendorcount + "</div>";
+        xTemp = xTemp + "<div class='FieldBit ClickBit' onclick=\"Admin.Delete('inventory','" + xItem._id + "')\"><span class='fa fa-trash'></span></div>";
+        xTemp = xTemp + "</div>";
         $("#MainContainer").append(xTemp)
     }
 
     function ItemTemplate(xItem) {
         var xTemp = "<div class='WideBeam'>";
-        xTemp = xTemp + "<div  style='display:inline-block;'  class='ClickBit' onclick=\"Admin.EditItem('" + xItem._id + "')\"><span class='fa fa-pencil-square'></span></div>"
-        xTemp = xTemp + "<div class='FieldBit'>" + xItem.Name + "</div>"
-        xTemp = xTemp + "<div class='FieldBit'>" + xItem.Category + "</div>"
-        xTemp = xTemp + "<div class='FieldBit ClickBit' onclick=\"Admin.Delete('items','" + xItem._id + "')\"><span class='fa fa-trash'></span></div>"
-        xTemp = xTemp + "</div>"
+        xTemp = xTemp + "<div  style='display:inline-block;'  class='ClickBit' onclick=\"Admin.EditItem('" + xItem._id + "')\"><span class='fa fa-pencil-square'></span></div>";
+        xTemp = xTemp + "<div class='FieldBit'>" + xItem.Name + "</div>";
+        xTemp = xTemp + "<div class='FieldBit'>" + xItem.Category + "</div>";
+        xTemp = xTemp + "<div class='FieldBit ClickBit' onclick=\"Admin.Delete('items','" + xItem._id + "')\"><span class='fa fa-trash'></span></div>";
+        xTemp = xTemp + "</div>";
         $("#MainContainer").append(xTemp)
     }
 
     function RewardTemplate(xItem) {
         var xTemp = "<div class='WideBeam'>";
-        xTemp = xTemp + "<div  style='display:inline-block;'  class='ClickBit' onclick=\"Admin.EditReward('" + xItem._id + "')\"><span class='fa fa-pencil-square'></span></div>"
-        xTemp = xTemp + "<div class='FieldBit'>" + xItem.Title + "</div>"
-        xTemp = xTemp + "<div class='FieldBit ClickBit' onclick=\"Admin.Delete('rewards','" + xItem._id + "')\"><span class='fa fa-trash'></span></div>"
-        xTemp = xTemp + "</div>"
+        xTemp = xTemp + "<div  style='display:inline-block;'  class='ClickBit' onclick=\"Admin.EditReward('" + xItem._id + "')\"><span class='fa fa-pencil-square'></span></div>";
+        xTemp = xTemp + "<div class='FieldBit'>" + xItem.Title + "</div>";
+        xTemp = xTemp + "<div class='FieldBit ClickBit' onclick=\"Admin.Delete('rewards','" + xItem._id + "')\"><span class='fa fa-trash'></span></div>";
+        xTemp = xTemp + "</div>";
         $("#MainContainer").append(xTemp)
     }
 
     function ModuleTemplate(xItem) {
         var xTemp = "<div class='WideBeam'>";
-        xTemp = xTemp + "<div  style='display:inline-block;'  class='ClickBit' onclick=\"Admin.EditModule('" + xItem._id + "')\"><span class='fa fa-pencil-square'></span></div>"
-        xTemp = xTemp + "<div  style='display:inline-block;'  class='ClickBit' onclick=\"Admin.EditModuleContent('" + xItem._id + "')\"><span class='fa fa-globe'></span></div>"
-        xTemp = xTemp + "<div class='FieldBit'>" + xItem.Title + "</div>"
-        xTemp = xTemp + "<div class='FieldBit'>" + xItem.Category + "</div>"
-        xTemp = xTemp + "<div class='FieldBit ClickBit' onclick=\"Admin.Delete('modules','" + xItem._id + "')\"><span class='fa fa-trash'></span></div>"
-        xTemp = xTemp + "</div>"
+        xTemp = xTemp + "<div  style='display:inline-block;'  class='ClickBit' onclick=\"Admin.EditModule('" + xItem._id + "')\"><span class='fa fa-pencil-square'></span></div>";
+        xTemp = xTemp + "<div  style='display:inline-block;'  class='ClickBit' onclick=\"Admin.EditModuleContent('" + xItem._id + "')\"><span class='fa fa-globe'></span></div>";
+        xTemp = xTemp + "<div class='FieldBit'>" + xItem.Title + "</div>";
+        xTemp = xTemp + "<div class='FieldBit'>" + xItem.Category + "</div>";
+        xTemp = xTemp + "<div class='FieldBit ClickBit' onclick=\"Admin.Delete('modules','" + xItem._id + "')\"><span class='fa fa-trash'></span></div>";
+        xTemp = xTemp + "</div>";
         $("#MainContainer").append(xTemp)
     }
 
     function TestsTemplate(xItem) {
         var xTemp = "<div class='WideBeam'>";
-        xTemp = xTemp + "<div  style='display:inline-block;'  class='ClickBit' onclick=\"Admin.EditTest('" + xItem._id + "')\"><span class='fa fa-pencil-square'></span></div>"
-        xTemp = xTemp + "<div class='FieldBit'>" + xItem.Title + "</div>"
-        xTemp = xTemp + "<div class='FieldBit ClickBit' onclick=\"Admin.Delete('tests','" + xItem._id + "')\"><span class='fa fa-trash'></span></div>"
-        xTemp = xTemp + "</div>"
+        xTemp = xTemp + "<div  style='display:inline-block;'  class='ClickBit' onclick=\"Admin.EditTest('" + xItem._id + "')\"><span class='fa fa-pencil-square'></span></div>";
+        xTemp = xTemp + "<div class='FieldBit'>" + xItem.Title + "</div>";
+        xTemp = xTemp + "<div class='FieldBit ClickBit' onclick=\"Admin.Delete('tests','" + xItem._id + "')\"><span class='fa fa-trash'></span></div>";
+        xTemp = xTemp + "</div>";
         $("#MainContainer").append(xTemp)
     }
 
     function QuestionsTemplate(xItem) {
         var xTemp = "<div class='WideBeam'>";
-        xTemp = xTemp + "<div  style='display:inline-block;'  class='ClickBit' onclick=\"Admin.EditQuestion('" + xItem._id + "')\"><span class='fa fa-pencil-square'></span></div>"
-        xTemp = xTemp + "<div class='FieldBit'>" + xItem.Title + "</div>"
-        xTemp = xTemp + "<div class='FieldBit ClickBit' onclick=\"Admin.Delete('questions','" + xItem._id + "')\"><span class='fa fa-trash'></span>22</div>"
-        xTemp = xTemp + "</div>"
+        xTemp = xTemp + "<div  style='display:inline-block;'  class='ClickBit' onclick=\"Admin.EditQuestion('" + xItem._id + "')\"><span class='fa fa-pencil-square'></span></div>";
+        xTemp = xTemp + "<div class='FieldBit'>" + xItem.Title + "</div>";
+        xTemp = xTemp + "<div class='FieldBit ClickBit' onclick=\"Admin.Delete('questions','" + xItem._id + "')\"><span class='fa fa-trash'></span>22</div>";
+        xTemp = xTemp + "</div>";
         $("#MainContainer").append(xTemp)
     }
 
     function OrderTemplate(xItem) {
         var xTemp = "<div class='WideBeam'>";
-        xTemp = xTemp + "<div class='ClickBit' style='float:left;' onclick=\"Admin.EditOrder('" + xItem._id + "')\"><span class='fa fa-archive'></span></div>"
+        xTemp = xTemp + "<div class='ClickBit' style='float:left;' onclick=\"Admin.EditOrder('" + xItem._id + "')\"><span class='fa fa-archive'></span></div>";
 //        xTemp=xTemp+"<div class='FieldBit'>"+xItem.Date+"</div>"
-        xTemp = xTemp + "<div class='FieldBit'>" + xItem.Name + "</div>"
-        xTemp = xTemp + "<div class='FieldBit'>" + xItem.Category + "</div>"
-        xTemp = xTemp + "<div class='FieldBit ClickBit' onclick=\"Admin.Delete('items','" + xItem._id + "')\"><span class='fa fa-trash'></span></div>"
-        xTemp = xTemp + "</div>"
+        xTemp = xTemp + "<div class='FieldBit'>" + xItem.Name + "</div>";
+        xTemp = xTemp + "<div class='FieldBit'>" + xItem.Category + "</div>";
+        xTemp = xTemp + "<div class='FieldBit ClickBit' onclick=\"Admin.Delete('items','" + xItem._id + "')\"><span class='fa fa-trash'></span></div>";
+        xTemp = xTemp + "</div>";
         $("#MainContainer").append(xTemp)
     }
 
@@ -473,52 +477,52 @@ var Admin = (function () {
             xItem.VenueDate = "TBD"
         }
         var xTemp = "<div class='WideBeam'>";
-        xTemp = xTemp + "<div class='ClickBit' style='float:left;' onclick=\"Admin.EditOrder('" + xItem._id + "')\"><span class='fa fa-archive'></span></div>"
+        xTemp = xTemp + "<div class='ClickBit' style='float:left;' onclick=\"Admin.EditOrder('" + xItem._id + "')\"><span class='fa fa-archive'></span></div>";
 //        xTemp=xTemp+"<div class='FieldBit'>"+xItem.Date+"</div>"
-        xTemp = xTemp + "<div class='FieldBit'>" + xItem.VenueDate + "</div>"
-        xTemp = xTemp + "<div class='FieldBit'>" + xItem.City + "</div>"
-        xTemp = xTemp + "<div class='FieldBit'>" + xItem.State + "</div>"
-        xTemp = xTemp + "<div class='FieldBit'>" + xItem.Status + "</div>"
+        xTemp = xTemp + "<div class='FieldBit'>" + xItem.VenueDate + "</div>";
+        xTemp = xTemp + "<div class='FieldBit'>" + xItem.City + "</div>";
+        xTemp = xTemp + "<div class='FieldBit'>" + xItem.State + "</div>";
+        xTemp = xTemp + "<div class='FieldBit'>" + xItem.Status + "</div>";
         if (xItem.PaidOut == undefined) {
             xTemp = xTemp + "<div style='display:inline-block;' class=' ClickBit' onclick=\"Admin.Payout('" + xItem.VendorCost + "','" + xItem._id + "')\">$</div>"
         }
-        xTemp = xTemp + "<div class='FieldBit ClickBit' onclick=\"Admin.Delete('items','" + xItem._id + "')\"><span class='fa fa-trash'></span></div>"
-        xTemp = xTemp + "</div>"
+        xTemp = xTemp + "<div class='FieldBit ClickBit' onclick=\"Admin.Delete('items','" + xItem._id + "')\"><span class='fa fa-trash'></span></div>";
+        xTemp = xTemp + "</div>";
         $("#MainContainer").append(xTemp)
     }
 
     function CatTemplate(xItem) {
         var xTemp = "<div class='WideBeam'>";
-        xTemp = xTemp + "<div style='display:inline-block;' class='ClickBit' onclick=\"Admin.EditCat('" + xItem._id + "')\"><span class='fa fa-pencil-square'></span></div>"
-        xTemp = xTemp + "<div class='FieldBit'>" + xItem.Name + "</div>"
-        xTemp = xTemp + "<div class='FieldBit ClickBit' onclick=\"Admin.Delete('category','" + xItem._id + "')\"><span class='fa fa-trash'></span></div>"
-        xTemp = xTemp + "</div>"
+        xTemp = xTemp + "<div style='display:inline-block;' class='ClickBit' onclick=\"Admin.EditCat('" + xItem._id + "')\"><span class='fa fa-pencil-square'></span></div>";
+        xTemp = xTemp + "<div class='FieldBit'>" + xItem.Name + "</div>";
+        xTemp = xTemp + "<div class='FieldBit ClickBit' onclick=\"Admin.Delete('category','" + xItem._id + "')\"><span class='fa fa-trash'></span></div>";
+        xTemp = xTemp + "</div>";
         $("#MainContainer").append(xTemp)
     }
 
     function PageTemplate(xItem) {
         var xTemp = "<div class='WideBeam'>";
-        xTemp = xTemp + "<div  style='display:inline-block;' class='ClickBit' onclick=\"Admin.EditPage('" + xItem._id + "')\"><span class='fa fa-pencil-square'></span></div>"
-        xTemp = xTemp + "<div class='FieldBit400'>" + xItem.Name + "</div>"
+        xTemp = xTemp + "<div  style='display:inline-block;' class='ClickBit' onclick=\"Admin.EditPage('" + xItem._id + "')\"><span class='fa fa-pencil-square'></span></div>";
+        xTemp = xTemp + "<div class='FieldBit400'>" + xItem.Name + "</div>";
         if (xItem.Name.indexOf("Email") == -1) {
             xTemp = xTemp + "<div class='FieldBit ClickBit' onclick=\"Admin.Delete('pages','" + xItem._id + "')\"><span class='fa fa-trash'></span></div>"
         } else {
             xTemp = xTemp + "<div class='FieldBit'>Permanent</div>"
         }
-        xTemp = xTemp + "</div>"
+        xTemp = xTemp + "</div>";
         $("#MainContainer").append(xTemp)
     }
 
     function MessageTemplate(xItem) {
         var xTemp = "<div class='WideBeam'>";
-        var xDate = new Date(xItem.Date).toLocaleDateString()
-        xTemp = xTemp + "<div class='FieldBit'>" + xItem.Title + "</div>"
-        xTemp = xTemp + "<div class='FieldBit'>Recipient:" + xItem.Person + "</div>"
-        xTemp = xTemp + "<div class='FieldBit'>" + xDate + "</div>"
-        xTemp = xTemp + "<div class='FieldBit' onclick=\"Admin.ViewMessage('" + xItem._id + "')\">View</div>"
-        xTemp = xTemp + "<div class='FieldBit ClickBit' onclick=\"Admin.Delete('messages'," + xItem._id + "')\"><span class='fa fa-trash'></span></div>"
-        xTemp = xTemp + "<div class='MessageContent' style=\"display:none;\" id=\"MessageContent_" + xItem._id + "\">" + xItem.Content + "</div>"
-        xTemp = xTemp + "</div>"
+        var xDate = new Date(xItem.Date).toLocaleDateString();
+        xTemp = xTemp + "<div class='FieldBit'>" + xItem.Title + "</div>";
+        xTemp = xTemp + "<div class='FieldBit'>Recipient:" + xItem.Person + "</div>";
+        xTemp = xTemp + "<div class='FieldBit'>" + xDate + "</div>";
+        xTemp = xTemp + "<div class='FieldBit' onclick=\"Admin.ViewMessage('" + xItem._id + "')\">View</div>";
+        xTemp = xTemp + "<div class='FieldBit ClickBit' onclick=\"Admin.Delete('messages'," + xItem._id + "')\"><span class='fa fa-trash'></span></div>";
+        xTemp = xTemp + "<div class='MessageContent' style=\"display:none;\" id=\"MessageContent_" + xItem._id + "\">" + xItem.Content + "</div>";
+        xTemp = xTemp + "</div>";
         $("#MainContainer").append(xTemp)
     }
 
@@ -527,7 +531,7 @@ var Admin = (function () {
 
     function GetData(xCat, Owner, xShow) {
         $("#MainContainer").empty();
-        var rCat = xCat
+        var rCat = xCat;
         if (rCat == "categories") {
             rCat = "category"
         }
@@ -539,11 +543,11 @@ var Admin = (function () {
         }
         $.getJSON("/GetData/?Cat=" + rCat + "&O=" + Owner, function (data) {
             if (xCat == "rewards") {
-                ProcessRewards(data, xShow)
+                ProcessRewards(data, xShow);
                 SetHash("EditRewards")
             }
             if (xCat == "pages") {
-                ProcessPages(data, xShow)
+                ProcessPages(data, xShow);
                 SetHash("EditPages")
             }
             if (xCat == "clients") {
@@ -559,33 +563,33 @@ var Admin = (function () {
                 SetHash("EditQuestions")
             }
             if (xCat == "tests") {
-                ProcessTests(data, xShow)
+                ProcessTests(data, xShow);
                 SetHash("EditTests")
             }
             if (xCat == "requests") {
-                ProcessOrders(data, xShow)
+                ProcessOrders(data, xShow);
                 SetHash("EditRequests")
             }
             if (xCat == "users") {
-                ProcessUsers(data, xShow)
+                ProcessUsers(data, xShow);
                 SetHash("EditUsers")
             }
             if (xCat == "categories") {
                 xCategory = data;
-                ProcessCats(data, xShow)
+                ProcessCats(data, xShow);
                 SetHash("EditCategories")
             }
             if (xCat == "items") {
                 xItems = data;
-                ProcessItems(data, xShow)
+                ProcessItems(data, xShow);
                 SetHash("EditItems")
             }
             if (xCat == "inventory") {
-                ProcessInventory(data, xShow)
+                ProcessInventory(data, xShow);
                 SetHash("EditInventory")
             }
             if (xCat == "messages") {
-                ProcessMessages(data, xShow)
+                ProcessMessages(data, xShow);
                 SetHash("EditMessages")
             }
         })
@@ -596,20 +600,20 @@ var Admin = (function () {
     }
 
     function GetTests() {
-        GetData("rewards", null, false)
-        GetData("clients", null, false)
+        GetData("rewards", null, false);
+        GetData("clients", null, false);
         GetData("tests")
     }
 
     function GetQuestions() {
-        GetData("clients", null, false)
+        GetData("clients", null, false);
         GetData("questions")
     }
 
     function GetModules() {
-        GetData("clients", null, false)
-        GetData("tests", null, false)
-        GetData("rewards", null, false)
+        GetData("clients", null, false);
+        GetData("tests", null, false);
+        GetData("rewards", null, false);
         setTimeout(function () {
             GetData("modules")
         }, 1000)
@@ -707,7 +711,7 @@ var Admin = (function () {
         var bb = 0;
         var xObject;
 
-        SetHash("EditPage=" + xID)
+        SetHash("EditPage=" + xID);
         for (bb = 0; bb < Pages.length; bb++) {
             if (Pages[bb]._id == xID) {
                 xObject = Pages[bb]
@@ -731,7 +735,7 @@ var Admin = (function () {
 
     var CurrentPage;
     function EditUser(xID) {
-        SetHash("EditUser=" + xID)
+        SetHash("EditUser=" + xID);
 
         var bb = 0;
         var xObject;
@@ -777,7 +781,7 @@ var Admin = (function () {
     }
 
     function EditReward(xID) {
-        SetHash("EditReward=" + xID)
+        SetHash("EditReward=" + xID);
         var bb = 0;
         var xObject;
         for (bb = 0; bb < Rewards.length; bb++) {
@@ -804,20 +808,20 @@ var Admin = (function () {
         $("#Description").val(CurrentItem.Desc);
         $("#RewardType").val(CurrentItem.xType);
         $("#RewardValue").val(CurrentItem.Value);
-        CurrentCat = "Reward"
-        $("#Owner").append("<option value='none'>None</option>")
+        CurrentCat = "Reward";
+        $("#Owner").append("<option value='none'>None</option>");
         var dd = "";
         for (dd = 0; dd < Clients.length; dd++) {
             $("#Owner").append("<option value='" + Clients[dd]._id + "'>" + Clients[dd].Company + "</option>");
         }
         $("#PhotoPlaceHolder").on("click", function () {
             $("#Input_File").click();
-        })
+        });
         $("#Input_File").on("change", FileChange)
     }
 
     function EditClient(xID) {
-        SetHash("EditClient=" + xID)
+        SetHash("EditClient=" + xID);
         var bb = 0;
         var xObject;
         for (bb = 0; bb < Clients.length; bb++) {
@@ -859,7 +863,7 @@ var Admin = (function () {
 
 
     function EditOrder(xID) {
-        SetHash("EditOrder=" + xID)
+        SetHash("EditOrder=" + xID);
         $.getJSON("/GetData/?Cat=users", function (data) {
             Users = data;
             $.getJSON("/GetData/?Cat=inventory", function (data) {
@@ -893,7 +897,7 @@ var Admin = (function () {
     var CurrentOrder;
 
     function EditOrder2(xID) {
-        SetHash("EditOrder2=" + xID)
+        SetHash("EditOrder2=" + xID);
         var bb = 0;
         var xObject;
         for (bb = 0; bb < Orders.length; bb++) {
@@ -922,7 +926,7 @@ var Admin = (function () {
             "<div class='AddRow'><div class='AddLabel'>Alert</div><div class='AddInput' id=\"AlertBox\"></div></div>" +
             "<div id=\"CartContainer\"></div>" +
             "<div id=\"xLink\"><a target=\"_blank\" href=\"http://www.party-butler.com/billing.html?ID=" + xObject._id + "\"> Billing Link</a></div>" +
-            "<div class='AddRow'><div class='AddLabel'></div><div class='AddInput'><input type='button' value=\"Save\"  onclick=\"Admin.SaveEvent();\">"
+            "<div class='AddRow'><div class='AddLabel'></div><div class='AddInput'><input type='button' value=\"Save\"  onclick=\"Admin.SaveEvent();\">";
         if (xObject.Status != "Accepted") {
             xOut = xOut + "<input type='button' value=\"Assign Vendor\"  onclick=\"Admin.AssignEvent();\"></div></div>"
         } else {
@@ -934,7 +938,7 @@ var Admin = (function () {
         //CartITems
         RenderCart();
         VendorEstimate();
-        return;
+
        /* var xlat = xObject.geo.results[0].geometry.location.lat;
         var xlong = xObject.geo.results[0].geometry.location.lng;
         var map;
@@ -961,7 +965,7 @@ var Admin = (function () {
                 "<div class='CartAmount'>" + SelectBox(xCart[dd]) + "</div>" +
                 "<div class='CartFrom'><span class='redtext'>$" + parseFloat(ObjectCost(xCart[dd]._id) * xCart[dd].Amount).toFixed(2) + "</span>/$" + parseFloat(xCart[dd].MinCost * xCart[dd].Amount).toFixed(2) + "(min)</div>" +
                 "<div class='CartRemove' onclick=\"Admin.RemoveFromCart('" + xCart[dd]._id + "')\"><span class='fa fa-remove'></span></div>" +
-                "</div>"
+                "</div>";
 //            EstimatedCost=EstimatedCost+(xCart[dd].MinCost*xCart[dd].Amount);
         }
         $("#CartContainer").html(xOut);
@@ -978,7 +982,7 @@ var Admin = (function () {
             }
         }
         CurrentOrder.Cart = newCart;
-        alert("Item Removed From Cart.")
+        alert("Item Removed From Cart.");
         RenderCart();
         VendorEstimate()
     }
@@ -1014,7 +1018,7 @@ var Admin = (function () {
         } else {
             $("#AlertBox").html("")
         }
-        $("#VendorCost").val(xvalue.toFixed(2))
+        $("#VendorCost").val(xvalue.toFixed(2));
         $("#ActualCost").val(parseFloat(xvalue * 1.2).toFixed(2))
     }
 
@@ -1035,7 +1039,7 @@ var Admin = (function () {
 
     function EditCat(xID) {
         $("#MainContainer").empty();
-        SetHash("EditCat=" + xID)
+        SetHash("EditCat=" + xID);
         var bb = 0;
         var xObject;
         for (bb = 0; bb < xCategory.length; bb++) {
@@ -1054,12 +1058,12 @@ var Admin = (function () {
         $("#MainContainer").append(xOut);
         $("#PhotoPlaceHolder").on("click", function () {
             $("#Input_File").click();
-        })
-        $("#Input_File").on("change", FileChange)
+        });
+        $("#Input_File").on("change", FileChange);
         CurrentCat = "Item"
     }
 
-    var CurrentItem
+    var CurrentItem;
     var usStates = [
         { "name": "Alabama", "abbreviation": "AL"},
         { "name": "Alaska", "abbreviation": "AK"},
@@ -1130,7 +1134,11 @@ var Admin = (function () {
         for (bb = 0; bb < usStates.length; bb++) {
             var stateSelected = "";
             var bdStateShort = usStates[bb].abbreviation;
-            if(bdStateShort === StateShort){stateSelected = " Selected "} else {stateSelected = ""};
+            if (bdStateShort === StateShort) {
+                stateSelected = " Selected "
+            } else {
+                stateSelected = ""
+            }
             xout = xout + "<option value=\"" + bdStateShort + "\"" + stateSelected + ">" + usStates[bb].name + "</option>"
         }
         return xout + "</select>";
@@ -1141,7 +1149,7 @@ var Admin = (function () {
         $("#MainContainer").empty();
         var bb = 0;
         var xObject;
-        SetHash("EditItem=" + xID)
+        SetHash("EditItem=" + xID);
         for (bb = 0; bb < xItems.length; bb++) {
             if (xItems[bb]._id == xID) {
                 xObject = xItems[bb]
@@ -1160,7 +1168,7 @@ var Admin = (function () {
         $("#MainContainer").append(xOut);
         $("#PhotoPlaceHolder").on("click", function () {
             $("#Input_File").click();
-        })
+        });
         $("#Input_File").on("change", FileChange)
     }
 
@@ -1168,7 +1176,7 @@ var Admin = (function () {
         $("#MainContainer").empty();
         var bb = 0;
         var xObject;
-        SetHash("EditItem=" + xID)
+        SetHash("EditItem=" + xID);
         for (bb = 0; bb < Modules.length; bb++) {
             if (Modules[bb]._id == xID) {
                 xObject = Modules[bb]
@@ -1187,15 +1195,15 @@ var Admin = (function () {
             "<div class='AddRow'><div class='AddLabel'></div><div class='AddInput'><input type='button' value=\"Save\"  onclick=\"Admin.UpdateModule();\"></div></div>" +
             "</div>";
         $("#MainContainer").append(xOut);
-        $("#Reward").append("<option value='none'>None</option>")
+        $("#Reward").append("<option value='none'>None</option>");
         var dd = "";
         for (dd = 0; dd < Rewards.length; dd++) {
             $("#Reward").append("<option value='" + Rewards[dd]._id + "'>" + Rewards[dd].Title + "</option>");
         }
-        $("#Reward").val(xObject.Reward)
+        $("#Reward").val(xObject.Reward);
         $("#Seq_Unlock").val();
         $("input[id=Seq_Unlock][value=" + xObject.Seq_Unlock + "]").attr('checked', 'checked');
-        $("#Owner").append("<option value='none'>None</option>")
+        $("#Owner").append("<option value='none'>None</option>");
         var dd = "";
         for (dd = 0; dd < Clients.length; dd++) {
             if (CurrentItem.Owner == Clients[dd]._id) {
@@ -1206,7 +1214,7 @@ var Admin = (function () {
         }
         $("#PhotoPlaceHolder").on("click", function () {
             $("#Input_File").click();
-        })
+        });
         $("#Input_File").on("change", FileChange)
     }
 
@@ -1215,7 +1223,7 @@ var Admin = (function () {
         $("#MainContainer").empty();
         var bb = 0;
         var xObject;
-        SetHash("EditItem=" + xID)
+        SetHash("EditItem=" + xID);
         for (bb = 0; bb < Tests.length; bb++) {
             if (Tests[bb]._id == xID) {
                 xObject = Tests[bb]
@@ -1233,15 +1241,15 @@ var Admin = (function () {
             "<div class='AddRow'><div class='AddLabel'></div><div class='AddInput'><input type='button' value=\"Save\"  onclick=\"Admin.UpdateTest();\"></div></div>" +
             "</div>";
         $("#MainContainer").append(xOut);
-        $("#Reward").append("<option value='none'>None</option>")
+        $("#Reward").append("<option value='none'>None</option>");
         var dd = "";
         for (dd = 0; dd < Rewards.length; dd++) {
             $("#Reward").append("<option value='" + Rewards[dd]._id + "'>" + Rewards[dd].Title + "</option>");
         }
-        $("#Reward").val(xObject.Reward)
+        $("#Reward").val(xObject.Reward);
         $("#Seq_Unlock").val(xObject.Seq_Unlock);
         $("input[id=Seq_Unlock][value=" + xObject.Seq_Unlock + "]").attr('checked', 'checked');
-        $("#Owner").append("<option value='none'>None</option>")
+        $("#Owner").append("<option value='none'>None</option>");
         var dd = "";
         for (dd = 0; dd < Clients.length; dd++) {
             if (CurrentItem.Owner == Clients[dd]._id) {
@@ -1250,7 +1258,7 @@ var Admin = (function () {
                 $("#Owner").append("<option value='" + Clients[dd]._id + "'>" + Clients[dd].Company + "</option>");
             }
         }
-        $("#Input_File").on("change", FileChange)
+        $("#Input_File").on("change", FileChange);
         $("#PhotoPlaceHolder").on("click", function () {
             $("#Input_File").click();
         })
@@ -1260,7 +1268,7 @@ var Admin = (function () {
         $("#MainContainer").empty();
         var bb = 0;
         var xObject;
-        SetHash("EditItem=" + xID)
+        SetHash("EditItem=" + xID);
         for (bb = 0; bb < Tests.length; bb++) {
             if (Tests[bb]._id == xID) {
                 xObject = Tests[bb]
@@ -1269,13 +1277,17 @@ var Admin = (function () {
         CurrentItem = xObject;
         LastPhoto = xObject.Photo;
         var xOut = "<div class='AddItem'>" +
-            "<div class='AddRow'><div class='AddLabel'>Title33:</div><div class='AddInput'><input type='text' id='Title'></div></div>" +
+            "<div class='AddRow'><div class='AddLabel'>Title33:</div><div class='AddInput'><input type='text' id='Title' value='" + xObject.Title + "'></div></div>" +
             "<div class='AddRow'><div class='AddLabel'>Owner:</div><div class='AddInput'><select name='Owner' id='Owner'></select></div></div>" +
-            "<div class='AddRow'><div class='AddLabel'>Description:</div><div class='AddInput'><textarea id='Description'></textarea></div></div>" +
-            "<div class='AddRow'><div class='AddLabel'>Question Media Type:</div><div class='AddInput'><select name='QuestionMediaType' id='QuestionMediaType'><option value='Text'>Text</option><option value='Video'>Video</option><option value='Photo'>Photo</option></select></div></div>" +
+            "<div class='AddRow'><div class='AddLabel'>Description:</div><div class='AddInput'><textarea id='Description'>" + xObject.mediaType + "</textarea></div></div>" +
+            "<div class='AddRow'><div class='AddLabel'>Question Media Type:</div><div class='AddInput'><select name='QuestionMediaType' id='QuestionMediaType'>" +
+            "<option value='Text'>Text</option>" +
+            "<option value='Video'>Video</option>" +
+            "<option value='Photo'>Photo</option>" +
+            "</select></div></div>" +
             "<div class='AddRow' id='VideoRow' style='display:none;' ><div class='AddLabel'  >Video(URL):</div><div class='AddInput'><input type='text' id='QuestionValue'></div></div>" +
             "<div class='AddRow'  id='PhotoRow' style='display:none;'><div class='AddLabel' >Photo</div><div id='PhotoPlaceHolder'></div><BR><div ><input  type='file' id='Input_File' name='Input_File'></div></div>" +
-            "<div class='AddRow'><div class='AddLabel'>Question Type:</div><div class='AddInput'><select name='QuestionType' id='QuestionType'><option value='TrueFalse'>True|False</option><option value='MultipleChoice'>Multiple Choice</option><option value='MultipleAnswer'>Multiple Answer</option></select></div></div>" +
+            "<div class='AddRow'><div class='AddLabel'>Question Type:</div><div class='AddInput'><select name='QuestionType' id='QuestionType'></select></div></div>" +
             "<div class='AddRow' id='Answer_Row_1'><div class='AddLabel'>Answer 1:</div><div class='AddInput'><input value='true' type='text' id='Answer_1'><input type='checkbox' id='Answer_1_Correct'</div></div></div>" +
             "<div class='AddRow' id='Answer_Row_2'><div class='AddLabel'>Answer 2:</div><div class='AddInput'><input value='false' type='text' id='Answer_2'><input type='checkbox' id='Answer_2_Correct'</div></div></div>" +
             "<div class='AddRow' id='Answer_Row_3' style='display:none;'><div class='AddLabel'>Answer 3:</div><div class='AddInput'><input type='text' id='Answer_3'><input type='checkbox' id='Answer_3_Correct'</div></div></div>" +
@@ -1285,18 +1297,51 @@ var Admin = (function () {
             "<div class='AddRow'><div class='AddLabel'></div><div class='AddInput'><input type='button' value=\"Save\"  onclick=\"Admin.SaveObject();\"></div></div>" +
             "</div>";
         $("#MainContainer").append(xOut);
-        CurrentCat = "Reward"
-        $("#Owner").append("<option value='none'>None</option>")
+        CurrentCat = "Question";
+        $("#Owner").append("<option value='none'>None</option>");
         var dd = "";
         for (dd = 0; dd < Clients.length; dd++) {
-            $("#Owner").append("<option value='" + Clients[dd]._id + "'>" + Clients[dd].Company + "</option>");
+            if (CurrentItem.Owner == Clients[dd]._id) {
+                $("#Owner").append("<option value='" + Clients[dd]._id + "' selected>" + Clients[dd].Company + "</option>");
+            } else {
+                $("#Owner").append("<option value='" + Clients[dd]._id + "'>" + Clients[dd].Company + "</option>");
+            }
         }
-        $("#PhotoPlaceHolder").on("click", function () {
-            $("#Input_File").click();
-        })
-        $("#Input_File").on("change", FileChange)
+        $("#QuestionMediaType").append("<option value='none'>None</option>");
+        if (xObject.xmediaType == "Text") {
+            $("#QuestionMediaType").append("<option value='Text' selected>Text</option>")
+        } else {
+            $("#QuestionMediaType").append("<option value='Text'>Text</option>")
+        }
+        if (xObject.xmediaType == "Video") {
+            $("#QuestionMediaType").append("<option value='Video' selected>Video</option>")
+        } else {
+            $("#QuestionMediaType").append("<option value='Video'>Video</option>")
+        }
+        if (xObject.xmediaType == "Photo") {
+            $("#QuestionMediaType").append("<option value='Photo' selected>Photo</option>")
+        } else {
+            $("#QuestionMediaType").append("<option value='Photo'>Photo</option>")
+        }
+        $("#QuestionType").append("<option value='none'>None</option>");
+        if (xObject.xType == "Text") {
+            $("#QuestionType").append("<option value='TrueFalse' selected>True|False</option>")
+        } else {
+            $("#QuestionType").append("<option value='TrueFalse'>True|False</option>")
+        }
+        if (xObject.xType == "MultipleChoice"){
+            $("#QuestionType").append("<option value='MultipleAnswer' selected>Multiple Choice</option>")
+        } else {
+            $("#QuestionType").append("<option value='MultipleAnswer'>Multiple Choice</option>")
+        }
+        if (xObject.xType == "MultipleAnswer"){
+            $("#QuestionType").append("<option value='MultipleAnswer' selected>Multiple Answer</option>")
+        } else {
+            $("#QuestionType").append("<option value='MultipleAnswer'>Multiple Answer</option>")
+        }
+        $("#Input_File").on("change", FileChange);
         $("#QuestionMediaType").on("change", function () {
-            var xval = $("#QuestionMediaType").val();
+            var xval = xObject.mediaType;
             if (xval == "Text") {
                 $("#PhotoRow").hide();
                 $("#VideoRow").hide();
@@ -1309,15 +1354,16 @@ var Admin = (function () {
                 $("#PhotoRow").show();
                 $("#VideoRow").hide();
             }
-        })
+        });
         $("#QuestionType").on("change", function () {
-            var xval = $("#QuestionType").val();
+            $("#QuestionType").val() = xObject.mediaType;
+            var xval = xObject.mediaType;
             if (xval == "TrueFalse") {
                 $("#Answer_Row_3").hide();
                 $("#Answer_Row_4").hide();
                 $("#Answer_Row_5").hide();
                 $("#Answer_Row_6").hide();
-                $("#Answer_1").prop("disabled", true).val("true")
+                $("#Answer_1").prop("disabled", true).val("true");
                 $("#Answer_2").prop("disabled", true).val("true")
             }
             if (xval == "MultipleChoice") {
@@ -1325,7 +1371,7 @@ var Admin = (function () {
                 $("#Answer_Row_4").show();
                 $("#Answer_Row_5").show();
                 $("#Answer_Row_6").show();
-                $("#Answer_1").prop("disabled", false).val("")
+                $("#Answer_1").prop("disabled", false).val("");
                 $("#Answer_2").prop("disabled", false).val("")
             }
             if (xval == "MultipleAnswer") {
@@ -1333,14 +1379,14 @@ var Admin = (function () {
                 $("#Answer_Row_4").show();
                 $("#Answer_Row_5").show();
                 $("#Answer_Row_6").show();
-                $("#Answer_1").prop("disabled", false).val("")
+                $("#Answer_1").prop("disabled", false).val("");
                 $("#Answer_2").prop("disabled", false).val("")
             }
-        })
+        });
         $("#Answer_1_Correct,#Answer_2_Correct,#Answer_3_Correct,#Answer_4_Correct,#Answer_5_Correct,#Answer_6_Correct").click(function () {
             var xval = $("#QuestionType").val();
             if (xval == "TrueFalse" || xval == "MultipleChoice") {
-                $("#Answer_1_Correct,#Answer_2_Correct,#Answer_3_Correct,#Answer_4_Correct,#Answer_5_Correct,#Answer_6_Correct").prop("checked", false)
+                $("#Answer_1_Correct,#Answer_2_Correct,#Answer_3_Correct,#Answer_4_Correct,#Answer_5_Correct,#Answer_6_Correct").prop("checked", false);
                 $(this).prop("checked", true);
             }
         });
@@ -1356,7 +1402,7 @@ var Admin = (function () {
         $("#MainContainer").empty();
         if (xType == "User") {
             var RandPass = randomString(8, '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ');
-            SetHash("c")
+            SetHash("c");
             var xOut = "<div class='AddItem'>" +
                 "<div class='AddRow'><div class='AddLabel'>First Name11</div><div class='AddInput'><input type='text' id='FirstName'></div></div>" +
                 "<div class='AddRow'><div class='AddLabel'>Last Name</div><div class='AddInput'><input type='text' id='LastName'></div></div>" +
@@ -1377,7 +1423,7 @@ var Admin = (function () {
         }
         if (xType == "Module") {
             var RandPass = randomString(8, '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ');
-            SetHash("AddUser")
+            SetHash("AddUser");
             var xOut = "<div class='AddItem'>" +
                 "<div class='AddRow'><div class='AddLabel'>Title:</div><div class='AddInput'><input type='text' id='Title'></div></div>" +
                 "<div class='AddRow'><div class='AddLabel'>Owner:</div><div class='AddInput'><select name='Owner' id='Owner'></select></div></div>" +
@@ -1389,24 +1435,24 @@ var Admin = (function () {
                 "<div class='AddRow'><div class='AddLabel'></div><div class='AddInput'><input type='button' value=\"Save\"  onclick=\"Admin.SaveObject();\"></div></div>" +
                 "</div>";
             $("#MainContainer").append(xOut);
-            CurrentCat = "Module"
-            $("#Owner").append("<option value='none'>None</option>")
+            CurrentCat = "Module";
+            $("#Owner").append("<option value='none'>None</option>");
             var dd = "";
             for (dd = 0; dd < Clients.length; dd++) {
                 $("#Owner").append("<option value='" + Clients[dd]._id + "'>" + Clients[dd].Company + "</option>");
             }
-            $("#Reward").append("<option value='none'>None</option>")
+            $("#Reward").append("<option value='none'>None</option>");
             var dd = "";
             for (dd = 0; dd < Rewards.length; dd++) {
                 $("#Reward").append("<option value='" + Rewards[dd]._id + "'>" + Rewards[dd].Title + "</option>");
             }
             $("#PhotoPlaceHolder").on("click", function () {
                 $("#Input_File").click();
-            })
+            });
             $("#Input_File").on("change", FileChange)
         }
         if (xType == "Reward") {
-            SetHash("AddReward")
+            SetHash("AddReward");
             var xOut = "<div class='AddItem'>" +
                 "<div class='AddRow'><div class='AddLabel'>Title:</div><div class='AddInput'><input type='text' id='Title'></div></div>" +
                 "<div class='AddRow'><div class='AddLabel'>Owner:</div><div class='AddInput'><select name='Owner' id='Owner'></select></div></div>" +
@@ -1417,20 +1463,20 @@ var Admin = (function () {
                 "<div class='AddRow'><div class='AddLabel'></div><div class='AddInput'><input type='button' value=\"Save\"  onclick=\"Admin.SaveObject();\"></div></div>" +
                 "</div>";
             $("#MainContainer").append(xOut);
-            CurrentCat = "Reward"
-            $("#Owner").append("<option value='none'>None</option>")
+            CurrentCat = "Reward";
+            $("#Owner").append("<option value='none'>None</option>");
             var dd = "";
             for (dd = 0; dd < Clients.length; dd++) {
                 $("#Owner").append("<option value='" + Clients[dd]._id + "'>" + Clients[dd].Company + "</option>");
             }
             $("#PhotoPlaceHolder").on("click", function () {
                 $("#Input_File").click();
-            })
+            });
             $("#Input_File").on("change", FileChange)
         }
 
         if (xType == "Question") {
-            SetHash("AddQuestion")
+            SetHash("AddQuestion");
             var xOut = "<div class='AddItem'>" +
                 "<div class='AddRow'><div class='AddLabel'>Title44:</div><div class='AddInput'><input type='text' id='Title'></div></div>" +
                 "<div class='AddRow'><div class='AddLabel'>Owner:</div><div class='AddInput'><select name='Owner' id='Owner'></select></div></div>" +
@@ -1448,16 +1494,16 @@ var Admin = (function () {
                 "<div class='AddRow'><div class='AddLabel'></div><div class='AddInput'><input type='button' value=\"Save\"  onclick=\"Admin.SaveObject();\"></div></div>" +
                 "</div>";
             $("#MainContainer").append(xOut);
-            CurrentCat = "Reward"
-            $("#Owner").append("<option value='none'>None</option>")
+            CurrentCat = "Question";
+            $("#Owner").append("<option value='none'>None</option>");
             var dd = "";
             for (dd = 0; dd < Clients.length; dd++) {
                 $("#Owner").append("<option value='" + Clients[dd]._id + "'>" + Clients[dd].Company + "</option>");
             }
             $("#PhotoPlaceHolder").on("click", function () {
                 $("#Input_File").click();
-            })
-            $("#Input_File").on("change", FileChange)
+            });
+            $("#Input_File").on("change", FileChange);
             $("#QuestionMediaType").on("change", function () {
                 var xval = $("#QuestionMediaType").val();
                 if (xval == "Text") {
@@ -1472,7 +1518,7 @@ var Admin = (function () {
                     $("#PhotoRow").show();
                     $("#VideoRow").hide();
                 }
-            })
+            });
             $("#QuestionType").on("change", function () {
                 var xval = $("#QuestionType").val();
                 if (xval == "TrueFalse") {
@@ -1480,7 +1526,7 @@ var Admin = (function () {
                     $("#Answer_Row_4").hide();
                     $("#Answer_Row_5").hide();
                     $("#Answer_Row_6").hide();
-                    $("#Answer_1").prop("disabled", true).val("true")
+                    $("#Answer_1").prop("disabled", true).val("true");
                     $("#Answer_2").prop("disabled", true).val("true")
                 }
                 if (xval == "MultipleChoice") {
@@ -1488,7 +1534,7 @@ var Admin = (function () {
                     $("#Answer_Row_4").show();
                     $("#Answer_Row_5").show();
                     $("#Answer_Row_6").show();
-                    $("#Answer_1").prop("disabled", false).val("")
+                    $("#Answer_1").prop("disabled", false).val("");
                     $("#Answer_2").prop("disabled", false).val("")
                 }
                 if (xval == "MultipleAnswer") {
@@ -1496,14 +1542,14 @@ var Admin = (function () {
                     $("#Answer_Row_4").show();
                     $("#Answer_Row_5").show();
                     $("#Answer_Row_6").show();
-                    $("#Answer_1").prop("disabled", false).val("")
+                    $("#Answer_1").prop("disabled", false).val("");
                     $("#Answer_2").prop("disabled", false).val("")
                 }
-            })
+            });
             $("#Answer_1_Correct,#Answer_2_Correct,#Answer_3_Correct,#Answer_4_Correct,#Answer_5_Correct,#Answer_6_Correct").click(function () {
                 var xval = $("#QuestionType").val();
                 if (xval == "TrueFalse" || xval == "MultipleChoice") {
-                    $("#Answer_1_Correct,#Answer_2_Correct,#Answer_3_Correct,#Answer_4_Correct,#Answer_5_Correct,#Answer_6_Correct").prop("checked", false)
+                    $("#Answer_1_Correct,#Answer_2_Correct,#Answer_3_Correct,#Answer_4_Correct,#Answer_5_Correct,#Answer_6_Correct").prop("checked", false);
                     $(this).prop("checked", true);
                 }
             });
@@ -1511,7 +1557,7 @@ var Admin = (function () {
 
         if (xType == "Test") {
             var RandPass = randomString(8, '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ');
-            SetHash("AddTest")
+            SetHash("AddTest");
             var xOut = "<div class='AddItem'>" +
                 "<div class='AddRow'><div class='AddLabel'>Title:</div><div class='AddInput'><input type='text' id='Title'></div></div>" +
                 "<div class='AddRow'><div class='AddLabel'>Description:</div><div class='AddInput'><textarea id='Description'></textarea></div></div>" +
@@ -1522,26 +1568,26 @@ var Admin = (function () {
                 "<div class='AddRow'><div class='AddLabel'></div><div class='AddInput'><input type='button' value=\"Save\"  onclick=\"Admin.SaveObject();\"></div></div>" +
                 "</div>";
             $("#MainContainer").append(xOut);
-            CurrentCat = "Test"
-            $("#Owner").append("<option value='none'>None</option>")
+            CurrentCat = "Test";
+            $("#Owner").append("<option value='none'>None</option>");
             var dd = "";
             for (dd = 0; dd < Clients.length; dd++) {
                 $("#Owner").append("<option value='" + Clients[dd]._id + "'>" + Clients[dd].Company + "</option>");
             }
-            $("#Reward").append("<option value='none'>None</option>")
+            $("#Reward").append("<option value='none'>None</option>");
             var dd = "";
             for (dd = 0; dd < Rewards.length; dd++) {
                 $("#Reward").append("<option value='" + Rewards[dd]._id + "'>" + Rewards[dd].Title + "</option>");
             }
             $("#PhotoPlaceHolder").on("click", function () {
                 $("#Input_File").click();
-            })
+            });
             $("#Input_File").on("change", FileChange)
         }
 
         if (xType == "Client") {
             var RandPass = randomString(8, '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ');
-            SetHash("AddClient")
+            SetHash("AddClient");
             var xOut = "<div class='AddItem'>" +
                 "<div class='AddRow'><div class='AddLabel'>Company1</div><div class='AddInput'><input type='text' id='Company'></div></div>" +
                 "<div class='AddRow'><div class='AddLabel'>First Name</div><div class='AddInput'><input type='text' id='FirstName'></div></div>" +
@@ -1560,7 +1606,7 @@ var Admin = (function () {
         }
 
         if (xType == "Category") {
-            SetHash("AddCat")
+            SetHash("AddCat");
             var xOut = "<div class='AddItem'>" +
                 "<div class='AddRow'><div class='AddLabel'>Name</div><div class='AddInput'><input type='text' id='Name'></div></div>" +
                 "<div class='AddRow'><div class='AddLabel'>Desc</div><div class='AddInput'><textarea id='Desc'></textarea></div></div>" +
@@ -1573,12 +1619,12 @@ var Admin = (function () {
             CurrentCat = "Category";
             $("#PhotoPlaceHolder").on("click", function () {
                 $("#Input_File").click();
-            })
+            });
             $("#Input_File").on("change", FileChange)
         }
 
         if (xType == "Page") {
-            SetHash("AddPage")
+            SetHash("AddPage");
             var xOut = "<div class='AddItem'>" +
                 "<div class='AddRow'><div class='AddLabel'>Name</div><div class='AddInput'><input type='text' id='Name'></div></div>" +
                 "<div class='AddRow'><div class='AddLabel'>Content</div><div class='AddInput'><textarea id='PageContent'></textarea></div></div>" +
@@ -1592,7 +1638,7 @@ var Admin = (function () {
         }
 
         if (xType == "Item") {
-            SetHash("AddItem")
+            SetHash("AddItem");
             var xOut = "<div class='AddItem'>" +
                 "<div class='AddRow'><div class='AddLabel'>Category</div><div class='AddInput'><select id='Category'></select></div></div>" +
                 "<div class='AddRow'><div class='AddLabel'>Name</div><div class='AddInput'><input type='text' id='Name'></div></div>" +
@@ -1604,14 +1650,14 @@ var Admin = (function () {
             $("#MainContainer").append(xOut);
             $("#PhotoPlaceHolder").on("click", function () {
                 $("#Input_File").click();
-            })
-            $("#Input_File").on("change", FileChange)
-            CurrentCat = "Item"
+            });
+            $("#Input_File").on("change", FileChange);
+            CurrentCat = "Item";
             GetCategories();
         }
 
         if (xType == "Message") {
-            SetHash("AddMessage")
+            SetHash("AddMessage");
             var xOut = "<div class='AddItem'>" +
                 "<div class='AddRow'><div class='AddLabel'>Person</div><div class='AddInput'><select id='Person'><option value='All'>All</option></select></div></div>" +
                 "<div class='AddRow'><div class='AddLabel'>Title</div><div class='AddInput'><input type='text' id='Title'></div></div>" +
@@ -1646,9 +1692,9 @@ var Admin = (function () {
     var LastPhoto = null;
 
     function uploadComplete2(response) {
-        var xdata = JSON.parse(response.target.responseText)
+        var xdata = JSON.parse(response.target.responseText);
         var xpic = "url(" + xdata.picture + ")";
-        $("#PhotoPlaceHolder").css("background-image", xpic)
+        $("#PhotoPlaceHolder").css("background-image", xpic);
         LastPhoto = xdata.picture;
         console.log(LastPhoto);
     }
@@ -1685,7 +1731,7 @@ var Admin = (function () {
     }
 
     function SaveItem() {
-        var xObject = {}
+        var xObject = {};
         var xCat = "";
         if (CurrentCat == "Message") {
             xObject.Person = $("#Person").val();
@@ -1708,10 +1754,10 @@ var Admin = (function () {
             xObject.Email = $("#_Email").val();
             if (checkEmail(xObject.Email)) {
             } else {
-                alert("Invalid Email")
+                alert("Invalid Email");
                 return;
             }
-            xCat = "clients"
+            xCat = "clients";
             console.log("CurrentCat of Client")
         }
         if (CurrentCat == "User") {
@@ -1730,7 +1776,7 @@ var Admin = (function () {
             xObject.Shipping = $("#Shipping").val();
             if (checkEmail(xObject.Email)) {
             } else {
-                alert("Invalid Email")
+                alert("Invalid Email");
                 return;
             }
             xCat = "users"
@@ -1741,7 +1787,7 @@ var Admin = (function () {
             xObject.Owner = $("#Owner").val();
             xObject.Tests = [];
             xObject.Reward = $("#Reward").val();
-            xObject.Seq_Unlock = $('input[id=Seq_Unlock]:checked').val()
+            xObject.Seq_Unlock = $('input[id=Seq_Unlock]:checked').val();
             xObject.Category = $("#Category").val();
             xObject.Photo = LastPhoto;
             LastPhoto = null;
@@ -1752,7 +1798,7 @@ var Admin = (function () {
             xObject.Desc = $("#Description").val();
             xObject.Question_Count = 0;
             //xObject.Seq_Unlock=$("#Seq_Unlock").val();
-            xObject.Seq_Unlock = $('input[id=Seq_Unlock]:checked').val()
+            xObject.Seq_Unlock = $('input[id=Seq_Unlock]:checked').val();
             xObject.Reward = $("#Reward").val();
             xObject.Photo = LastPhoto;
             LastPhoto = null;
@@ -1769,7 +1815,7 @@ var Admin = (function () {
             LastPhoto = null;
             xCat = "rewards";
         }
-        if (CurrentCat == "Reward") {
+        if (CurrentCat == "Question") {
             xObject.Title = $("#Title").val();
             xObject.Desc = $("#Description").val();
             xObject.Owner = $("#Owner").val();
@@ -1779,7 +1825,7 @@ var Admin = (function () {
             xObject.Photo = LastPhoto;
             LastPhoto = null;
             xObject.Answers=[];
-            xObject.Correct=[]
+            xObject.Correct=[];
             var bb=0;
             for(bb=1;bb<7;bb++){
                 if($("#Answer_"+bb).val()!=""){
@@ -1823,7 +1869,7 @@ var Admin = (function () {
             cache: false,
             timeout: 5000,
             complete: function (res) {
-                alert("Item Added")
+                alert("Item Added");
                 if (CurrentCat == "Client") {
                     LoadPage("Clients")
                 }
@@ -1845,18 +1891,22 @@ var Admin = (function () {
                 if (CurrentCat == "Module") {
                     LoadPage("Modules")
                 }
+                if (CurrentCat == "Question") {
+                    LoadPage("Questions")
+                }
                 if (CurrentCat == "Test") {
                     LoadPage("Tests")
                 }
                 if (CurrentCat == "Pages") {
                     LoadPage("Pages")
                 }
-            }})
-        console.log("CurrentCat of Client")
+            }});
+        console.log("CurrentCat of Client - " + CurrentCat)
+        console.log("using SaveObject-Type= to process");
     }
 
     function SavexItem() {
-        var xObject = {}
+        var xObject = {};
         xObject.Name = $("#Name").val();
         xObject.Desc = $("#Desc").val();
         xObject.LongDesc = $("#LongDesc").val();
@@ -1873,7 +1923,7 @@ var Admin = (function () {
             cache: false,
             timeout: 5000,
             complete: function (res) {
-                alert(CurrentCat + " Saved")
+                alert(CurrentCat + " Saved");
                 if (CurrentCat == "User") {
                     GetData("users")
                 }
@@ -1884,7 +1934,7 @@ var Admin = (function () {
     }
 
     function SaveCat() {
-        var xObject = {}
+        var xObject = {};
         xObject.Name = $("#Name").val();
         xObject.Desc = $("#Desc").val();
         xObject.Category = $("#Category").val();
@@ -1899,7 +1949,7 @@ var Admin = (function () {
             cache: false,
             timeout: 5000,
             complete: function (res) {
-                alert("Category Saved")
+                alert("Category Saved");
                 if (CurrentCat == "User") {
                     LoadPage("Users")
                 }
@@ -1922,7 +1972,7 @@ var Admin = (function () {
         xObject.Shipping = $("#Shipping").val();
         if (checkEmail(xObject.Email)) {
         } else {
-            alert("Invalid Email")
+            alert("Invalid Email");
             return;
         }
         var bb = 0;
@@ -1950,6 +2000,45 @@ var Admin = (function () {
         )
     }
 
+    function SaveQuestion() {
+        var xObject = CurrentUser;
+        xObject.Title = $("#Title").val();
+        xObject.Desc = $("#Description").val();
+        xObject.Owner = $("#Owner").val();
+        xObject.mediaType = $("#QuestionMediaType").val();
+        xObject.Value = $("#QuestionValue").val();
+        xObject.xType = $("#QuestionType").val();
+        xObject.Photo = LastPhoto;
+        LastPhoto = null;
+        xObject.Answers=[];
+        xObject.Correct=[];
+        var bb=0;
+        for(bb=1;bb<7;bb++){
+            if($("#Answer_"+bb).val()!=""){
+                xObject.Answers.push($("#Answer_"+bb).val())
+            }
+            if($("#Answer_"+bb+"_Correct").prop("checked")==true){
+                xObject.Correct.push(bb);
+            }
+        }
+
+        $.ajax({
+                url: "/SaveQuestion/",
+                type: "POST",
+                dataType: "json",
+                data: JSON.stringify(xObject),
+                contentType: "application/json",
+                cache: false,
+                timeout: 5000,
+                complete: function (res) {
+                    setTimeout(function () {
+                        LoadPage("Clients");
+                    }, 3000);
+                }
+            }
+        )
+    }
+
     function SaveClient() {
         var xObject = CurrentUser;
         xObject.FirstName = $("#FirstName").val();
@@ -1966,7 +2055,7 @@ var Admin = (function () {
         xObject.Shipping = $("#Shipping").val();
         if (checkEmail(xObject.Email)) {
         } else {
-            alert("Invalid Email")
+            alert("Invalid Email");
             return;
         }
         var bb = 0;
@@ -2016,7 +2105,7 @@ var Admin = (function () {
         )
     }
 
-    var Payout0 = {}
+    var Payout0 = {};
 
     function PayoutAmount() {
         Payout0.Amount = $("#PayoutAmount").val();
@@ -2030,7 +2119,7 @@ var Admin = (function () {
             timeout: 5000,
             complete: function (res) {
                 alert("Bank Account Paid.")
-            }})
+            }});
         $("#Payout").hide();
         GetData("requests")
     }
@@ -2100,7 +2189,7 @@ var Admin = (function () {
         $('input:checked').each(function () {
             xObject[$(this).val()] = $("#Cost_" + $(this).val()).val();
         });
-        console.log(xObject)
+        console.log(xObject);
         xObject.Owner = CurrentUser._id;
         $.ajax({
                 url: "/SaveInventory/",
@@ -2230,7 +2319,7 @@ var Admin = (function () {
         xObject.Category = $("#Category").val();
         xObject.Photo = LastPhoto;
         xObject.Reward = $("#Reward").val();
-        xObject.Seq_Unlock = $('input[id=Seq_Unlock]:checked').val()
+        xObject.Seq_Unlock = $('input[id=Seq_Unlock]:checked').val();
         LastPhoto = null;
         $.ajax({
             url: "/UpdateModule/",
@@ -2251,7 +2340,7 @@ var Admin = (function () {
         xObject.Title = $("#Title").val();
         xObject.Desc = $("#Description").val();
         xObject.Owner = $("#Owner").val();
-        xObject.Seq_Unlock = $('input[id=Seq_Unlock]:checked').val()
+        xObject.Seq_Unlock = $('input[id=Seq_Unlock]:checked').val();
         xObject.Reward = $("#Reward").val();
         //$("#Seq_Unlock").val();
         xObject._id = CurrentItem._id;
@@ -2277,7 +2366,7 @@ var Admin = (function () {
         $("#MainContainer").empty();
         var bb = 0;
         var xObject;
-        SetHash("EditItem=" + xID)
+        SetHash("EditItem=" + xID);
         for (bb = 0; bb < Modules.length; bb++) {
             if (Modules[bb]._id == xID) {
                 xObject = Modules[bb]
@@ -2285,9 +2374,9 @@ var Admin = (function () {
         }
         CurrentItem = xObject;
         LastPhoto = xObject.Photo;
-        var content = "<div id='MyTests'></div><div id='AddTestToModule'><select id='xTests'></select><input type='Button' value='Add Test' onclick='Admin.AddTestToModule();'><input type='Button' value='Save Module' onclick='Admin.SaveModuleContent();'></div></div>"
+        var content = "<div id='MyTests'></div><div id='AddTestToModule'><select id='xTests'></select><input type='Button' value='Add Test' onclick='Admin.AddTestToModule();'><input type='Button' value='Save Module' onclick='Admin.SaveModuleContent();'></div></div>";
         var xItem = $("#xTests").val();
-        $("#MainContainer").html(content)
+        $("#MainContainer").html(content);
         for (bb = 0; bb < Tests.length; bb++) {
 //            if(Tests[bb].Owner==xID){
             $("#xTests").append("<option id='Option_" + Tests[bb]._id + "' value='" + Tests[bb]._id + "' selected>" + Tests[bb].Title + "</option>");
@@ -2304,12 +2393,12 @@ var Admin = (function () {
                             xObject.Question_Count = 0;
                         }
                         var content = "<div class='Test_Item' xid=\"" + xObject._id + "\">";
-                        content = content + "<div class='Test_Title'>" + xObject.Title + "</div>"
-                        content = content + "<div class='Test_Remove' onclick=\"Admin.RemoveTestFromModule(this,'" + xObject._id + "');\"><span class='fa fa-trash'></span></div>"
-                        content = content + "<div class='Test_Down' onclick=\"Admin.DownTestInModule(this,'" + xObject._id + "');\"><span class='fa fa-arrow-down'></span></div>"
-                        content = content + "<div class='Test_Up' onclick=\"Admin.UpTestInModule(this,'" + xObject._id + "');\"><span class='fa fa-arrow-up'></span></div>"
-                        content = content + "<div class='Test_QCount'>" + xObject.Question_Count + "</div>"
-                        content = content + "</div>"
+                        content = content + "<div class='Test_Title'>" + xObject.Title + "</div>";
+                        content = content + "<div class='Test_Remove' onclick=\"Admin.RemoveTestFromModule(this,'" + xObject._id + "');\"><span class='fa fa-trash'></span></div>";
+                        content = content + "<div class='Test_Down' onclick=\"Admin.DownTestInModule(this,'" + xObject._id + "');\"><span class='fa fa-arrow-down'></span></div>";
+                        content = content + "<div class='Test_Up' onclick=\"Admin.UpTestInModule(this,'" + xObject._id + "');\"><span class='fa fa-arrow-up'></span></div>";
+                        content = content + "<div class='Test_QCount'>" + xObject.Question_Count + "</div>";
+                        content = content + "</div>";
                         $("#MyTests").append(content)
                     }
                 }
@@ -2319,11 +2408,11 @@ var Admin = (function () {
 
     function AddTestToModule() {
         var xObject = {};
-        var xvalue = $("#xTests").val()
-        var bb
+        var xvalue = $("#xTests").val();
+        var bb;
         for (bb = 0; bb < Tests.length; bb++) {
             if (xvalue == Tests[bb]._id) {
-                xObject = Tests[bb]
+                xObject = Tests[bb];
                 $("#Option_" + xObject._id).remove();
             }
         }
@@ -2331,12 +2420,12 @@ var Admin = (function () {
             xObject.Question_Count = 0;
         }
         var content = "<div class='Test_Item' xid=\"" + xObject._id + "\">";
-        content = content + "<div class='Test_Title'>" + xObject.Title + "</div>"
-        content = content + "<div class='Test_Remove' onclick=\"Admin.RemoveTestFromModule(this,'" + xObject._id + "');\"><span class='fa fa-trash'></span></div>"
-        content = content + "<div class='Test_Down' onclick=\"Admin.DownTestInModule(this,'" + xObject._id + "');\"><span class='fa fa-arrow-down'></span></div>"
-        content = content + "<div class='Test_Up' onclick=\"Admin.UpTestInModule(this,'" + xObject._id + "');\"><span class='fa fa-arrow-up'></span></div>"
-        content = content + "<div class='Test_QCount'>" + xObject.Question_Count + "</div>"
-        content = content + "</div>"
+        content = content + "<div class='Test_Title'>" + xObject.Title + "</div>";
+        content = content + "<div class='Test_Remove' onclick=\"Admin.RemoveTestFromModule(this,'" + xObject._id + "');\"><span class='fa fa-trash'></span></div>";
+        content = content + "<div class='Test_Down' onclick=\"Admin.DownTestInModule(this,'" + xObject._id + "');\"><span class='fa fa-arrow-down'></span></div>";
+        content = content + "<div class='Test_Up' onclick=\"Admin.UpTestInModule(this,'" + xObject._id + "');\"><span class='fa fa-arrow-up'></span></div>";
+        content = content + "<div class='Test_QCount'>" + xObject.Question_Count + "</div>";
+        content = content + "</div>";
         $("#MyTests").append(content)
     }
 
@@ -2360,7 +2449,7 @@ var Admin = (function () {
     }
 
     function SaveModuleContent() {
-        var xDivs = document.getElementsByClassName("Test_Item")
+        var xDivs = document.getElementsByClassName("Test_Item");
         var bb = 0;
         var xTests = [];
         for (bb = 0; bb < xDivs.length; bb++) {
@@ -2456,6 +2545,6 @@ var Admin = (function () {
         EditTest: EditTest,
         EditQuestion:EditQuestion
     }
-})()
+})();
 
 

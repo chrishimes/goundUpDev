@@ -141,12 +141,12 @@ router.get('/AdminLogin/',function(req,response){
     var pass= query.pass;
     var shasum = crypto.createHash('md5');
     if(pass==adminpass&&userid==adminuser){
-        response.send({loggedin:true,admin:true})
+        response.send({loggedin:true,admin:true});
         req.session.admin = true;
     }else{
         response.send({loggedin:false})
     }
-})
+});
 
 router.get('/Login/',function(req,response){
     var url_parts = url.parse(req.url, true);
@@ -172,7 +172,7 @@ router.get('/Login/',function(req,response){
             }
         );
     }
-})
+});
 
 router.get('/AdminLogin/',function(req,response){
     var url_parts = url.parse(req.url, true);
@@ -181,12 +181,12 @@ router.get('/AdminLogin/',function(req,response){
     var pass= query.pass;
     var shasum = crypto.createHash('md5');
     if(pass==adminpass&&userid==adminuser){
-        response.send({loggedin:true,admin:true})
+        response.send({loggedin:true,admin:true});
         req.session.admin = true;
     }else{
         response.send({loggedin:false})
     }
-})
+});
 
 router.get('/GetUser/',function(req,response){
     var url_parts = url.parse(req.url, true);
@@ -201,7 +201,7 @@ router.get('/GetUser/',function(req,response){
             }
         }
     );
-})
+});
 
 router.get('/GetUsers/',function(req,response){
     var url_parts = url.parse(req.url, true);
@@ -216,7 +216,7 @@ router.get('/GetUsers/',function(req,response){
             }
         }
     );
-})
+});
 
 router.get('/GetData/',function(req,response){
     var url_parts = url.parse(req.url, true);
@@ -237,7 +237,7 @@ router.get('/GetData/',function(req,response){
             }
         }
     );
-})
+});
 
 router.get('/GetMyMessages/',function(req,response){
     var url_parts = url.parse(req.url, true);
@@ -253,7 +253,7 @@ router.get('/GetMyMessages/',function(req,response){
             }
         }
     );
-})
+});
 
 router.get('/GetMyOrders/',function(req,response){
     var url_parts = url.parse(req.url, true);
@@ -268,7 +268,7 @@ router.get('/GetMyOrders/',function(req,response){
             }
         }
     );
-})
+});
 
 router.get('/Logout/',function(req,response){
     var url_parts = url.parse(req.url, true);
@@ -277,27 +277,27 @@ router.get('/Logout/',function(req,response){
     var pass= query.pass;
     req.session.admin = undefined;
     response.send({loggedin:false})
-})
+});
 
 router.get('/CheckSessionB/',function(req,response){
     if(req.session.user!=undefined){
-        console.log("Logged In")
+        console.log("Logged In");
         response.send({loggedin:true,user:req.session.user});
     }else{
-        console.log("Logged Out")
+        console.log("Logged Out");
         response.send({loggedin:false});
     }
-})
+});
 
 router.get('/CheckSession/',function(req,response){
     if(req.session.admin!=undefined||req.session.user!=undefined){
-        console.log("Logged In")
+        console.log("Logged In");
         response.send({loggedin:true});
     }else{
-        console.log("Logged Out")
+        console.log("Logged Out");
         response.send({loggedin:false});
     }
-})
+});
 
 //ROUTER POST
 router.post('/SavePhoto/',function(req,response){
@@ -318,8 +318,8 @@ router.post('/SavePhoto/',function(req,response){
             else {
                 var xpic={
                     picture:'../Photos/' + rFile.toString() +"."+getExtension(req.files.Input_File.name)
-                }
-                console.log(rFile)
+                };
+                console.log(rFile);
                 response.send(xpic);
             }
         });
@@ -327,7 +327,7 @@ router.post('/SavePhoto/',function(req,response){
 });
 
 router.post('/SaveObject/', function(req, res) {
-    console.log("inside SaveObject!")
+    console.log("inside SaveObject!");
     var userdata=  req.body ;
     userdata.Date=new Date().getTime();
     var url_parts = url.parse(req.url, true);
@@ -346,7 +346,7 @@ router.post('/SaveObject/', function(req, res) {
             console.log(data);*/
             db[cat].save(userdata, function(err, saved) {
                 if( err || !saved ) {
-                    console.log(err)
+                    console.log(err);
                     res.send("{\"saved\":false}");
                 }
                 else {     res.send(saved)}
@@ -355,12 +355,12 @@ router.post('/SaveObject/', function(req, res) {
     }else{
         db[cat].save(userdata, function(err, saved) {
             if( err || !saved ) {
-                console.log(err)
+                console.log(err);
                 res.send("{\"saved\":false}");
             }
             else {res.send(saved)}}
         );
-    };
+    }
 });
 
 router.post('/CreateUser/', function(req, res) {
@@ -368,7 +368,7 @@ router.post('/CreateUser/', function(req, res) {
     userdata.Date=new Date().getTime();
     var url_parts = url.parse(req.url, true);
     var query = url_parts.query;
-    var cat=  "users"
+    var cat=  "users";
     var oPass=userdata.Password;
     if(userdata.Password){
         var shasum = crypto.createHash('md5');
@@ -377,19 +377,6 @@ router.post('/CreateUser/', function(req, res) {
     }
     var rItem=userdata.Address+","+userdata.City+","+userdata.State+","+userdata.Zip;
     console.log(rItem);
-    db[cat].save(userdata, function(err, saved) {
-        if( err || !saved ) {
-            console.log(err)
-            res.send("{\"saved\":false}");
-        }
-        else {
-            res.send(saved)
-            GetEmailTemplate("Vendor Created Email",function(xTemplate){
-                xTemplate=xTemplate.replace("#InitialPassword#",oPass)
-                SendMessage(userdata.Email,"Welcome!",xTemplate,res)
-            })
-        }
-    });
     /*geocoder.geocode(rItem, function ( err, data ) {
         console.log(err);
         console.log(data);
@@ -406,7 +393,7 @@ router.post('/SaveCat/', function(req, res) {
         { _id : db.ObjectId(cat) },
         { $set : userdata},
         { multi: false }
-    )
+    );
     res.send(true)
 });
 
@@ -421,7 +408,7 @@ router.post('/UpdateTest/', function(req, res) {
         { _id : db.ObjectId(cat) },
         { $set : userdata},
         { multi: false }
-    )
+    );
     res.send(true)
 });
 
@@ -436,7 +423,7 @@ router.post('/UpdateModule/', function(req, res) {
         { _id : db.ObjectId(cat) },
         { $set : userdata},
         { multi: false }
-    )
+    );
     res.send(true)
 });
 
@@ -451,7 +438,7 @@ router.post('/UpdateModuleContent/', function(req, res) {
         { _id : db.ObjectId(cat) },
         { $set : userdata},
         { multi: false }
-    )
+    );
     res.send(true)
 });
 
@@ -466,7 +453,7 @@ router.post('/SaveReward/', function(req, res) {
         { _id : db.ObjectId(cat) },
         { $set : userdata},
         { multi: false }
-    )
+    );
     res.send(true)
 });
 
@@ -476,7 +463,7 @@ router.post('/SaveAccount/', function(req, res) {
         { _id : db.ObjectId(userdata.User) },
         { $set : {BankAccount:userdata.Token}},
         { multi: false }
-    )
+    );
     res.send(true)
 });
 
@@ -490,7 +477,7 @@ router.post('/SaveItem/', function(req, res) {
         { _id : db.ObjectId(cat) },
         { $set : userdata},
         { multi: false }
-    )
+    );
     res.send(true)
 });
 
@@ -501,7 +488,7 @@ router.post('/SaveUser/', function(req, res) {
     if(userdata.Password!="OldPassword"){
         var shasum = crypto.createHash('md5');
         console.log("Change password");
-        console.log(userdata.Password)
+        console.log(userdata.Password);
         shasum.update(userdata.Password);
         userdata.Password = shasum.digest('hex');
         console.log("Password Hash");
@@ -515,7 +502,7 @@ router.post('/SaveUser/', function(req, res) {
         { _id : db.ObjectId(xID) },
         { $set : userdata},
         { multi: false }
-    )
+    );
     /*geocoder.geocode(rItem, function ( err, data ) {
         // do stuff with data
         userdata.geo=data;
@@ -526,6 +513,26 @@ router.post('/SaveUser/', function(req, res) {
     res.send(true)
 });
 
+router.post('/SaveQuestion/', function(req, res) {
+    var userdata=  req.body ;
+    var xID=userdata._id;
+    var rItem=userdata.Address+","+userdata.City+","+userdata.State+","+userdata.Zip;
+    console.log(rItem);
+    db.questions.update(
+        { _id : db.ObjectId(xID) },
+        { $set : userdata},
+        { multi: false }
+    );
+    /*geocoder.geocode(rItem, function ( err, data ) {
+     // do stuff with data
+     userdata.geo=data;
+     console.log(err);
+     console.log(data);
+
+     });*/
+    res.send(true)
+});
+
 router.post('/SaveClient/', function(req, res) {
     var userdata=  req.body ;
     var xID=userdata._id;
@@ -533,7 +540,7 @@ router.post('/SaveClient/', function(req, res) {
     if(userdata.Password!="OldPassword"){
         var shasum = crypto.createHash('md5');
         console.log("Change password");
-        console.log(userdata.Password)
+        console.log(userdata.Password);
         shasum.update(userdata.Password);
         userdata.Password = shasum.digest('hex');
         console.log("Password Hash");
@@ -566,7 +573,7 @@ router.post('/SavePage/', function(req, res) {
         { _id : db.ObjectId(xID) },
         { $set : userdata},
         { multi: false }
-    )
+    );
     res.send(true)
 });
 
@@ -580,7 +587,7 @@ router.post('/SaveInventory/', function(req, res) {
         else {
             db.inventory.save(userdata, function(err, saved) {
                 if( err || !saved ) {
-                    console.log(err)
+                    console.log(err);
                     res.send("{\"saved\":false}");
                 }
                 else {     res.send(saved)}
@@ -594,7 +601,7 @@ router.post('/SaveOrder/', function(req, res) {
     userdata.Date=new Date().getTime();
     db.requests.save(userdata, function(err, saved) {
         if( err || !saved ) {
-            console.log(err)
+            console.log(err);
             //   res.send("{\"saved\":false}");
         }
         else {
@@ -609,7 +616,7 @@ router.post('/ClientContact/', function(req, res) {
     userdata.Recip="Admin";
     db.messages.save(userdata, function(err, saved) {
         if( err || !saved ) {
-            console.log(err)
+            console.log(err);
             res.send("{\"saved\":false}");
         }
         else {     res.send(saved)}
@@ -638,7 +645,7 @@ router.get('/ApproveUser/',function(req,response){
         { _id : db.ObjectId(ID) },
         { $set : {Approved:true}},
         { multi: false }
-    )
+    );
     response.send(true);
 });
 
@@ -647,7 +654,7 @@ router.post('/AssignOrder/',function(req,response){
     var xID=userdata._id;
     delete userdata._id;
     userdata.Status="Assigned";
-    console.log("ASSIGN")
+    console.log("ASSIGN");
     db.requests.update(
         { _id : db.ObjectId(xID) },
         { $set : userdata},
@@ -667,7 +674,7 @@ router.post('/UpdateOrder/',function(req,response){
         { _id : db.ObjectId(xID) },
         { $set : userdata},
         { multi: false }
-    )
+    );
     response.send(true);
 });
 
@@ -685,12 +692,12 @@ router.get('/SendBill/',function(req,response){
             }
         }
     );
-    var xEmail=response[0].Email
+    var xEmail=response[0].Email;
     GetEmailTemplate("Billing Email",function(xTemplate){
-        xTemplate=xTemplate.replace("%LINK%","http://www.party-butler.com/Billing.html?ID="+xID)
+        xTemplate=xTemplate.replace("%LINK%","http://www.party-butler.com/Billing.html?ID="+xID);
         SendMessage(xEmail,"Order Billing",xTemplate,response);
     })
-})
+});
 
 router.get('/OrderChange/',function(req,response){
     var url_parts = url.parse(req.url, true);
@@ -701,7 +708,7 @@ router.get('/OrderChange/',function(req,response){
         { _id : db.ObjectId(xID) },
         { $set : {Status:userdata}},
         { multi: false }
-    )
+    );
     if(userdata=="Accepted"){
         GetEmailTemplate("Vendor Accepted Email",function(xTemplate){
             SendMessage("partybutler@yahoo.com","Order Accepted",xTemplate,response)
@@ -721,7 +728,7 @@ router.get('/DisapproveUser/',function(req,response){
         { _id : db.ObjectId(ID) },
         { $set : {Approved:false}},
         { multi: false }
-    )
+    );
     response.send(true);
 });
 
@@ -747,13 +754,13 @@ router.get('/GetOrder/',function(req,response){
             }
         }
     );
-})
+});
 
 function GetEmailTemplate(xName,callback){
     db.pages.find({Name:xName}).sort({name:1}).toArray(
         function(err, items) {
             if (items.length==0){
-                console.log("No Document Found")
+                console.log("No Document Found");
                 callback(null);
             }else{
                 console.log(items[0].Content);
