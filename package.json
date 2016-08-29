@@ -23,7 +23,7 @@
     "socket.io": "~0.9.14"
   },
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon app.js"
   },
   "homepage": "https://github.com/chrishimes/goundUpDev.git#readme"
 }

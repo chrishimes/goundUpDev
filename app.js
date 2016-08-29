@@ -1,43 +1,55 @@
 //'use strict';
-console.log("server.js loaded");
+console.log("APPs.js loaded-db");
 //default login
 var adminuser="admin";
 //var adminpass="acc9281";
 var adminpass="admin";
-
 
 //Require items to start the process
 var http = require('http');
 var path = require('path');
 var url = require("url");
 var express = require('express');
+var morgan = require('morgan');
+var fs=require('fs') ;
+var crypto = require('crypto');
+var router = express();
+var app = http.createServer(router);
+var publicDir = require('path').join(__dirname, '/client');
 
-console.log("server js processed");
 
+
+
+
+router.use(express.bodyParser());
+router.use(express.static(publicDir));
+router.use(express.cookieParser() );
+router.use(express.session({secret: '1234567890QWERTY'}));
+console.log("app.js processed");
+testMode = false;
+
+// add loggin middleware to log each request
+// see: http://www.npmjs.org/package/morgan
+router.use(morgan('dev'));
 
 //mongo connection setup
+var mongojs=require("mongojs");
+
 var databaseUrl =  "mongodb://localhost:27017/MLSecation";
 var collections = ["tests","modules","users","clients","questions","messages","rewards"];
-var mongojs=require("mongojs");
+
 // old version var db = mongojs.connection(databaseUrl, collections);
 var db = mongojs(databaseUrl, collections); //new version
 var ObjectId = mongojs.ObjectId;
-var fs=require('fs') ;
-var crypto = require('crypto');
 
 
-var router = express();
-var server = http.createServer(router);
-router.use(express.bodyParser());
-router.use(express.static(path.resolve("./client")));
-router.use(express.cookieParser() );
-router.use(express.session({secret: '1234567890QWERTY'}));
+
 
 var nodemailer = require("nodemailer");
 
-server.listen(process.env.PORT || 80, process.env.IP || "0.0.0.0", function(){
-    var addr = server.address();
-    console.log("server listening at", addr.address + ":" + addr.port);
+app.listen(process.env.PORT || 80, process.env.IP || "0.0.0.0", function(){
+    var addr = app.address();
+    console.log("app/server listening at", addr.address + ":" + addr.port);
 });
 
 function randomString(length, chars) {

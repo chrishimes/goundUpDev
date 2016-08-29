@@ -1277,7 +1277,7 @@ var Admin = (function () {
         CurrentItem = xObject;
         LastPhoto = xObject.Photo;
         var xOut = "<div class='AddItem'>" +
-            "<div class='AddRow'><div class='AddLabel'>Title33:</div><div class='AddInput'><input type='text' id='Title' value='" + xObject.Title + "'></div></div>" +
+            "<div class='AddRow'><div class='AddLabel'>Title-edit Q:</div><div class='AddInput'><input type='text' id='Title' value='" + xObject.Title + "'></div></div>" +
             "<div class='AddRow'><div class='AddLabel'>Owner:</div><div class='AddInput'><select name='Owner' id='Owner'></select></div></div>" +
             "<div class='AddRow'><div class='AddLabel'>Description:</div><div class='AddInput'><textarea id='Description'>" + xObject.mediaType + "</textarea></div></div>" +
             "<div class='AddRow'><div class='AddLabel'>Question Media Type:</div><div class='AddInput'><select name='QuestionMediaType' id='QuestionMediaType'>" +
@@ -1478,7 +1478,7 @@ var Admin = (function () {
         if (xType == "Question") {
             SetHash("AddQuestion");
             var xOut = "<div class='AddItem'>" +
-                "<div class='AddRow'><div class='AddLabel'>Title44:</div><div class='AddInput'><input type='text' id='Title'></div></div>" +
+                "<div class='AddRow'><div class='AddLabel'>Title-add Q:</div><div class='AddInput'><input type='text' id='Title'></div></div>" +
                 "<div class='AddRow'><div class='AddLabel'>Owner:</div><div class='AddInput'><select name='Owner' id='Owner'></select></div></div>" +
                 "<div class='AddRow'><div class='AddLabel'>Description:</div><div class='AddInput'><textarea id='Description'></textarea></div></div>" +
                 "<div class='AddRow'><div class='AddLabel'>Question Media Type:</div><div class='AddInput'><select name='QuestionMediaType' id='QuestionMediaType'><option value='Text'>Text</option><option value='Video'>Video</option><option value='Photo'>Photo</option></select></div></div>" +
